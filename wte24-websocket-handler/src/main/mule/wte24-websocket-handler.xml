@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:mule-soft-idp-connector="http://www.mulesoft.org/schema/mule/mule-soft-idp-connector" xmlns:idp="http://www.mulesoft.org/schema/mule/idp" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:websocket="http://www.mulesoft.org/schema/mule/websocket" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/websocket http://www.mulesoft.org/schema/mule/websocket/current/mule-websocket.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/idp http://www.mulesoft.org/schema/mule/idp/current/mule-idp.xsd
+http://www.mulesoft.org/schema/mule/mule-soft-idp-connector http://www.mulesoft.org/schema/mule/mule-soft-idp-connector/current/mule-mule-soft-idp-connector.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/sockets http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+	<websocket:config name="WebSockets_Config" doc:name="WebSockets Config" doc:id="a22df32c-18d5-4597-b6fc-fc53e905034d" >
+		<websocket:connection >
+			<websocket:server-settings listenerBasePath="/websocket" listenerConfig="HTTP_Listener_config" />
+		</websocket:connection>
+	</websocket:config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8d17eb70-60fc-4eb2-a1ff-b3d8f5b2b8fd">
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<mule-soft-idp-connector:config name="MuleSoft_IDP_Connector_Config" doc:name="MuleSoft IDP Connector Config" doc:id="cf69f708-3e1f-4323-a584-661d942b9ca3" property_host="${idp.host}" property_client-id="${idp.clientId}" property_client-secret="${idp.clientSecret}" property_access-token-url="${idp.accessTokenUrl}" />
+	<configuration-properties doc:name="Configuration properties" doc:id="d60c87b1-6f88-40da-979c-d34882ad460c" file="config/config.yaml" />
+	<os:object-store name="executionID" doc:name="Object store" doc:id="38efd2d6-12ed-4e50-b8b2-cbf5f1f8dcde" />
+	<os:object-store name="socketId" doc:name="Object store" doc:id="a41b68b0-28d8-464a-96eb-8dda1cc69b0a" />
+	<flow name="handle-websocket-open" doc:id="9299fe77-8bea-4df8-94ec-e54b19f32f8c" >
+		<websocket:on-inbound-connection doc:name="On New Inbound Connection" doc:id="263e5970-93d0-466e-920a-f9c7adfa4ab3" config-ref="WebSockets_Config" path="/idp"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fb2abc13-f091-428e-ad85-5b12cfcd8a62" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="6f8f8c53-1fcb-4649-af34-3ccdc5ba1460" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="socketID" ><![CDATA[attributes.socketId]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<os:store doc:name="Store in socket store" doc:id="a0b92cfc-0ba8-4e5b-b373-5cbbca603057" key="#[vars.socketID]" objectStore="socketId">
+			<os:value ><![CDATA[#[vars.socketID]]]></os:value>
+		</os:store>
+		<websocket:send doc:name="Send" doc:id="b046f3d2-d0aa-478c-90b3-b5365369f96d" config-ref="WebSockets_Config" socketId='#[vars.socketID]'>
+			<websocket:content ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	"status":  "Server opened socket",
+	"socketid": vars.socketID
+}]]]></websocket:content>
+		</websocket:send>
+	</flow>
+	<flow name="handle-websocket-inboundMessage" doc:id="ddecefec-bc65-4a3c-9e71-9b9938a0492a" >
+		<websocket:inbound-listener doc:name="On New Inbound Message" doc:id="d9b4c12a-0581-4157-a8c9-d4c3014f992c" config-ref="WebSockets_Config" path="/idp"/>
+		<logger level="INFO" doc:name="Logger" doc:id="cd5bc7b1-9a93-4987-b461-e27c22792e75" message="received message " />
+		<set-variable value="#[attributes.socketId]" doc:name="Set Variable socketID" doc:id="8d662dd5-10cd-4ad4-99d7-91a5a6de73d6" variableName="socketId"/>
+		<set-variable value='#["image_" ++ now() ++ ".png"]' doc:name="Set Variable fileName" doc:id="297c47ec-404a-433b-bc1f-854090644bb2" variableName="fileName"/>
+		<mule-soft-idp-connector:idp_--submit-doc doc:name="IDP - Submit Doc" doc:id="7959f216-4f19-485d-8444-718a03f98701" org-id="${mulesoft.orgId}" action-id="${idp.actionId}" action-version="${idp.actionVersion}" config-ref="MuleSoft_IDP_Connector_Config">
+			<mule-soft-idp-connector:idp_--submit-doc-request-data ><![CDATA[#[%dw 2.0
+import dw::module::Multipart
+import * from dw::core::Binaries
+output multipart/form-data 
+---
+{
+    parts : {
+        file : {
+            headers : {
+                "Content-Disposition" : {
+                    "name": "file",
+                    "filename": vars.fileName,
+                    "subtype": "form-data"
+                    },
+                "Content-Type" : "image/png"
+                },
+            content : payload
+            }
+        }
+}]]]></mule-soft-idp-connector:idp_--submit-doc-request-data>
+		</mule-soft-idp-connector:idp_--submit-doc>
+		<set-variable value="#[payload.id]" doc:name="Set Variable" doc:id="dd07f640-818d-4e38-89e3-d7b44f5afcba" variableName="executionId"/>
+		<os:store doc:name="add in the executionID store" doc:id="de1fca8b-a9fc-43b2-8b3a-2e48588be238" key="#[vars.executionId]" objectStore="executionID">
+			<os:value ><![CDATA[#[vars.socketId]]]></os:value>
+		</os:store>
+		<websocket:send doc:name="Send" doc:id="5bf1f700-e3fd-4a43-b1a7-2087b115bc61" config-ref="WebSockets_Config" socketId="#[vars.socketId]">
+			<websocket:content ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+	status: "image received and submitted for processing" ,
+	fileName:  vars.fileName
+}]]]></websocket:content>
+		</websocket:send>
+	</flow>
+	<flow name="poll-objectStore-executionId" doc:id="6b0ef670-3d2c-4595-92dc-931a517f5215" >
+		<scheduler doc:name="Scheduler" doc:id="a7abc2ce-0383-4d13-afd2-0519f087dd08" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="${mulesoft.pollingFrequency}" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="9eeb1c09-152d-4e48-8a40-874a7db00e33" objectStore="executionID"/>
+		<logger level="INFO" doc:name="Logger" doc:id="92e710f5-2424-442c-a518-810b515b2c3b" message='#[payload]' />
+		<foreach doc:name="For Each (only process individual executionid if there is still a live socket for it)" doc:id="231e5e5a-6f6f-4f8f-8520-9aae70cd0fd0" collection="#[%dw 2.0&#10;import * from dw::core::Objects&#10;var myVar = read('&lt;xml attr=&quot;x&quot;&gt;&lt;a&gt;true&lt;/a&gt;&lt;b&gt;1&lt;/b&gt;&lt;/xml&gt;', 'application/xml')&#10;output application/java&#10;---&#10;entriesOf(payload)]">
+			<logger level="INFO" doc:name="Logger" doc:id="55bae2b5-d971-4680-b196-248c49153e39" message="Key: #[ payload.key] Value: #[payload.value]"/>
+			<os:contains doc:name="socketID still in socketStore?" doc:id="4c01654e-cb2d-41bf-9fbe-a726e1eb4646" key="#[payload.value]" objectStore="socketId" target="isSocketLive"/>
+			<choice doc:name="Choice" doc:id="7c4ac707-be36-423d-bce7-54b4ab157c8e" >
+				<when expression="#[vars.isSocketLive]">
+					<logger level="INFO" doc:name="socket is live, give it a try" doc:id="a72d3ee4-7965-4db6-a998-784bf5fb192a" message="socket #[payload.value] is still alive, will try to process"/>
+					<set-variable value="#[false]" doc:name="Set isSocketError" doc:id="632bb51b-29f4-4e01-83e4-ef553cce9c94" variableName="isSocketError" />
+					<mule-soft-idp-connector:idp_--poll-for-result doc:name="IDP - Poll for Result" doc:id="7fb353d8-c7f7-4dbc-a867-b39dc2f73bcf" config-ref="MuleSoft_IDP_Connector_Config" org-id="${mulesoft.orgId}" action-id="${idp.actionId}" action-version="${idp.actionVersion}" execution-id="#[payload.key]" target="pollResult" />
+					<try doc:name="Try" doc:id="8e63e901-c6ba-439d-9b95-0df2619a8db3">
+				<websocket:send doc:name="Send Succeeded Result to Socket" doc:id="5259c9ee-7545-42e1-b65c-bee5b8fe46c5" config-ref="WebSockets_Config" socketId="#[payload.value]">
+				<websocket:content><![CDATA[#[%dw 2.0
+output application/json
+---
+vars.pollResult]]]></websocket:content>
+			</websocket:send>
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Socket Error" doc:id="4b9f2f73-a564-4269-a05a-9303bfe422f7" type="ANY">
+						<set-variable value="true" doc:name="Set isSocketError" doc:id="79a243ba-d5f8-415c-a3c6-a4db416cff73" variableName="isSocketError" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+					<choice doc:name="if socket error remove from socketstore and executionstore, remove from executionID store in certain cases" doc:id="6b9013b0-20e5-4441-b612-2569e6242849">
+	          				<when expression="#[vars.isSocketError]">
+					<logger level="INFO" doc:name="Logger" doc:id="a85ea889-efef-474d-a9b0-5534308935e5" message="Socket error - removing from execution and socket store"/>
+							<os:remove doc:name="Remove from socketstore" doc:id="222107d8-ac60-48a8-b343-343f38cdc6f6" key="#[payload.value]" objectStore="socketId"/>
+							<os:remove doc:name="Remove from executionstore" doc:id="731f045e-e21e-4bac-bdf5-54a9a0e80f2d" key="#[payload.key]" objectStore="executionID"/>
+				</when>
+				<when expression='#[["SUCCEEDED", "MANUAL_VALIDATION_REQUIRED", "FAILED", "PARTIAL_SUCCESS"] contains vars.pollResult.status]'>
+					<logger level="INFO" doc:name="Logger" doc:id="6347e350-5a24-4600-a072-6a03e423a745" message="removing from executionstore due to execution status:  #[vars.pollResult.status]"/>
+							<os:remove doc:name="Remove from executionstore" doc:id="a484c75d-b686-4b41-bda3-40feef1143d8" key="#[payload.key]" objectStore="executionID" />
+				</when>
+						<otherwise>
+					<logger level="INFO" doc:name="Logger" doc:id="ce4731e9-a465-4f66-9a0a-3c666b5ecbd9" message="will try again soon for executionID #[payload.key]  " />
+				</otherwise>
+			</choice>
+				</when>
+				<otherwise >
+					<logger level="INFO" doc:name="socket is dead, clean up" doc:id="307656b4-a04f-4770-8950-8a9e5311da59" message="Socket #[payload.value] is dead, clean up"/>
+					<try doc:name="Try" doc:id="38fd47d0-c4bd-4f1e-bfa3-d6dbfe71d33e" >
+						<os:remove doc:name="Remove from executionstore" doc:id="474a911b-86e9-4f7c-8c85-7319515d31f0" key="#[payload.key]" objectStore="executionID"/>
+						<error-handler >
+							<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="bf7e4a99-0ed1-432d-8734-615e9127a5fb" >
+								<logger level="INFO" doc:name="Logger" doc:id="3442e18d-d47f-4025-b33a-4f1f43dd3ca9" message="Couldn't remove #[payload.key] from executionstore"/>
+							</on-error-continue>
+						</error-handler>
+					</try>
+				</otherwise>
+			</choice>
+		</foreach>
+	</flow>
+	<flow name="handle-websocket-closed" doc:id="15633647-e9a8-4d9a-a8de-9aa7c9289377" >
+		<websocket:on-socket-closed doc:name="On Socket Closed" doc:id="6668c794-1c0c-40dc-8795-9b5d004c11b5" config-ref="WebSockets_Config" path="/idp"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9354f159-e0dc-4bc3-ba30-f75036db9a85" message="socketId #[attributes.socketId] was closed, will remove from socketId store and executionId store" />
+		<set-variable value="#[attributes.socketId]" doc:name="Set Variable socketId" doc:id="3b0ada0e-979b-4823-b37d-cf79d14e4ace" variableName="socketId"/>
+		<try doc:name="Try" doc:id="9d7e913a-6b25-42ee-b088-66129819c299" >
+			<os:remove doc:name="Remove" doc:id="ae5ca7a7-98cf-4e24-97e2-889438fcc7da" key="#[vars.socketId]" objectStore="socketId"/>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="8ad03a86-f14e-4e18-af5e-cfe263c79aa3" >
+					<logger level="INFO" doc:name="Logger" doc:id="4b4881aa-2a62-46e2-b633-6765672c5c0b" message="socketId #[attributes.socketId] could not be deleted from the socket Store"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+	</flow>
+	<flow name="verify-executionId-status" doc:id="a305176b-c3ef-4fb1-97d6-0ae6f8ca5860" >
+		<http:listener doc:name="Listener" doc:id="a656adb8-af1f-4e78-b5bc-e386a49785db" config-ref="HTTP_Listener_config" path="/verify"/>
+		<set-variable value="#[attributes.queryParams.executionId]" doc:name="Set Variable" doc:id="a548feb0-c73c-4cf4-8280-09582cea5b3d" variableName="executionId"/>
+		<mule-soft-idp-connector:idp_--poll-for-result doc:name="IDP - Poll for Result" doc:id="5993aeec-1076-451f-9b4d-3a1264bb39d2" config-ref="MuleSoft_IDP_Connector_Config" org-id="${mulesoft.orgId}" action-id="${idp.actionId}" action-version="${idp.actionVersion}" execution-id="#[vars.executionId]"/>
+	</flow>
+	<flow name="reset-all-objectStore" doc:id="aa18995b-03c3-4839-9429-735b4952bb81" >
+		<http:listener doc:name="Listener" doc:id="62000192-17fc-4f13-875e-5e2eea3158c4" config-ref="HTTP_Listener_config" path="resetobjectstores"/>
+		<try doc:name="Try to clear executionId" doc:id="e78f90c3-9fdf-4487-92a4-08d7b614d0f6" >
+			<os:clear doc:name="Clear" doc:id="c723d454-e204-4d6a-bc03-db17bd0c18fb" objectStore="executionID"/>
+			<set-variable value="cleaned" doc:name="Set Variable" doc:id="c74139ab-35d8-4c35-98a0-5bd93b6ae22f" variableName="executionIdStore"/>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="93d67938-f847-45df-9caa-47a0296c0a56" type="OS:STORE_NOT_AVAILABLE">
+					<logger level="INFO" doc:name="Logger" doc:id="d255407d-466d-44e3-8601-e86e59ef146e" message="tried to clear executionId objectStore but it was not available"/>
+					<set-variable value="error cleaning" doc:name="Set Variable" doc:id="4cfce8c2-3c27-45a0-89d0-5cecbf88a502" variableName="executionIdStore"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<try doc:name="Try to clear socketId store" doc:id="e33d0ef5-666f-4fb5-9186-4697cccf121e" >
+			<os:clear doc:name="Clear" doc:id="e8a94971-0399-4a5e-9791-5cde36233d4a" objectStore="socketId"/>
+			<set-variable value="cleaned" doc:name="Set Variable" doc:id="9c00b59e-324a-46fb-9397-e01489027f70" variableName="socketIdStore"/>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a41e9135-0b9c-437d-baf8-964826b12235" type="OS:STORE_NOT_AVAILABLE">
+					<logger level="INFO" doc:name="Logger" doc:id="cde613da-a905-4995-ae36-6814df65df41" message="tried to clear socketIdStore objectStore but it was not available"/>
+					<set-variable value="error cleaning" doc:name="Set Variable" doc:id="ad0cb417-af60-41f0-a665-f29ee093e148" variableName="socketIdStore"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Transform Message" doc:id="9328aed8-7e2a-420a-a1ab-757a40de00e6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"executionIDStore": vars.executionIdStore,
+"bla": vars.socketIdStore
+
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="retrieve-objectstore-contents" doc:id="7d263686-a289-4688-b0d3-e69b028d682e" >
+		<http:listener doc:name="Listener" doc:id="fad73bb7-5bed-40bf-a250-358dc33bb521" config-ref="HTTP_Listener_config" path="retrieve"/>
+		<set-variable value="#[attributes.queryParams.store]" doc:name="Set Variable" doc:id="e5f322b4-89c7-44e2-b259-d290edf81849" variableName="storeId"/>
+		<choice doc:name="Choice" doc:id="d304cda4-c93e-4224-bbaf-b644d3e730aa" >
+			<when expression='#[vars.storeId == "socket"]'>
+				<os:retrieve-all doc:name="Retrieve all" doc:id="b73e5b52-50a2-4e1b-8c9b-ac5de6c44b4f" objectStore="socketId"/>
+			</when>
+			<otherwise >
+				<os:retrieve-all doc:name="Retrieve all" doc:id="abeb161b-bd17-4383-ac9b-0dea16ae9f43" objectStore="executionID"/>
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="a420233b-3574-4ba6-bdc4-691bd7db5a18" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="load-main-page" doc:id="d96790ca-3277-4d2a-985a-74c01c85e03f" >
+		<http:listener doc:name="html get" doc:id="4e4679ec-ffee-4344-8ff3-da86d0333cdb" config-ref="HTTP_Listener_config" path="/html/*" allowedMethods="GET">
+		</http:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="f82afbb1-fc6d-4972-b8b7-9e34411e4d96" message="workdir :[${mule.home}]"/>
+		<set-variable value="${app.home}/webapp" doc:name="Set Variable" doc:id="41264df4-34f7-4cdf-82eb-f2af7ed33b5b" variableName="varHtmlPath"/>
+		<http:load-static-resource doc:name="Load static resource" doc:id="24d560e9-f6fd-49b3-b29c-c764c6f9748e" resourceBasePath="#[vars.varHtmlPath]"/>
+	</flow>
+</mule>
