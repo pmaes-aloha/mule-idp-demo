@@ -90,6 +90,12 @@
             background-color: #0056b3;
         }
 
+        /* Disabled button styles */
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
         .message-container {
             width: 100%;
             max-width: 640px;
@@ -108,12 +114,13 @@
         .json {
             color: green; /* Color JSON messages differently */
         }
-	.status-message {
+
+        .status-message {
             margin-bottom: 10px;
             border-bottom: 1px solid #ccc;
             padding-bottom: 10px;
             text-align: left;
-	}
+        }
 
         #timestamp {
             margin-top: 10px;
@@ -186,8 +193,8 @@
     <div class="button-container">
         <button id="open-btn">Open Connection</button>
         <button id="capture-btn" disabled>Capture Image</button>
-        <button id="send-btn">Send Image</button>
-        <button id="close-btn">Close Connection</button>
+        <button id="send-btn" disabled>Send Image</button>
+        <button id="close-btn" disabled>Close Connection</button>
         <!-- Add the clear messages button -->
         <button id="clear-msg-btn">Clear Messages</button>
     </div>
@@ -230,9 +237,11 @@
         let websocket;
         let socketId; // Store socket ID
 
-        // Function to enable or disable the Capture Image button
-        function toggleCaptureButton(enable) {
+        // Function to enable or disable the Capture Image, Send Image, and Close Connection buttons
+        function toggleButtons(enable) {
             captureButton.disabled = !enable;
+            sendButton.disabled = !enable;
+            closeButton.disabled = !enable;
         }
 
         // Access the user's camera
@@ -338,7 +347,7 @@
 
             websocket.onopen = function () {
                 console.log('WebSocket connection opened');
-                toggleCaptureButton(true); // Enable Capture Image button
+                toggleButtons(true); // Enable Capture Image, Send Image, and Close Connection buttons
                 console.log('Socket Icon:', socketIcon); // Log socketIcon
                 if(socketIcon) socketIcon.style.fill = 'green'; // Change icon color to green if socketIcon is not null
                 // Display socket opened status
@@ -353,7 +362,7 @@
 
             websocket.onclose = function () {
                 console.log('WebSocket connection closed');
-                toggleCaptureButton(false); // Disable Capture Image button
+                toggleButtons(false); // Disable Capture Image, Send Image, and Close Connection buttons
                 if(socketIcon) socketIcon.style.fill = 'grey'; // Change icon color to grey if socketIcon is not null
                 // Display socket closed status
                 displayStatusMessage('Socket closed', socketId);
@@ -408,8 +417,8 @@
             const statusMessage = document.createElement('div');
             const now = new Date();
             //statusMessage.textContent = `${now.toLocaleString()} - Socket ${socketId}: ${message}`; // Add timestamp and socket ID
-	    statusMessage.textContent = `${now.toLocaleString()} -  ${message}`; // Add timestamp and socket ID
-    	    statusMessage.classList.add('status-message');
+            statusMessage.textContent = `${now.toLocaleString()} -  ${message}`; // Add timestamp and socket ID
+            statusMessage.classList.add('status-message');
             receivedMessagesContainer.insertBefore(statusMessage, receivedMessagesContainer.firstChild);
         }
 
