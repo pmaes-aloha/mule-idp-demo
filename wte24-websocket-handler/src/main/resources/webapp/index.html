@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 100vh; /* Make sure it covers the whole viewport */
+            min-height: 100vh;
+            /* Make sure it covers the whole viewport */
             margin: 0;
             padding: 0;
         }
@@ -26,18 +28,22 @@
             justify-content: center;
             align-items: flex-start;
             width: 100%;
-            max-width: 1200px; /* Maximum width for the entire content */
-            margin-top: 20px; /* Add top margin */
+            max-width: 1200px;
+            /* Maximum width for the entire content */
+            margin-top: 20px;
+            /* Add top margin */
         }
 
         .left-container {
             flex: 1;
-            margin-right: 20px; /* Spacing between left and right containers */
+            margin-right: 20px;
+            /* Spacing between left and right containers */
         }
 
         .right-container {
             flex: 1;
-            margin-left: 20px; /* Spacing between left and right containers */
+            margin-left: 20px;
+            /* Spacing between left and right containers */
         }
 
         .video-container {
@@ -48,10 +54,14 @@
         video {
             border: 2px solid #333;
             display: block;
-            width: 100%; /* Adjust width to fill container */
-            height: auto; /* Let height adjust automatically */
-            max-width: 640px; /* Limit maximum width */
-            object-fit: contain; /* Maintain aspect ratio */
+            width: 100%;
+            /* Adjust width to fill container */
+            height: auto;
+            /* Let height adjust automatically */
+            max-width: 640px;
+            /* Limit maximum width */
+            object-fit: contain;
+            /* Maintain aspect ratio */
         }
 
         .overlay {
@@ -61,13 +71,17 @@
             transform: translate(-50%, -50%);
             border: 2px dashed #FF0000;
             box-sizing: border-box;
-            pointer-events: none; /* Make the overlay non-interactive */
-            z-index: 2; /* Ensure the overlay is above the video */
+            pointer-events: none;
+            /* Make the overlay non-interactive */
+            z-index: 2;
+            /* Ensure the overlay is above the video */
         }
 
         .thumbnail {
-            max-width: 200px; /* Limit the width of the thumbnail */
-            margin-bottom: 10px; /* Add some space below the thumbnail */
+            max-width: 200px;
+            /* Limit the width of the thumbnail */
+            margin-bottom: 10px;
+            /* Add some space below the thumbnail */
         }
 
         .button-container {
@@ -86,14 +100,14 @@
             margin-right: 10px;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Disabled button styles */
         button:disabled {
             background-color: #ccc;
+            color: #999;
             cursor: not-allowed;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
 
         .message-container {
@@ -112,7 +126,8 @@
         }
 
         .json {
-            color: green; /* Color JSON messages differently */
+            color: green;
+            /* Color JSON messages differently */
         }
 
         .status-message {
@@ -144,14 +159,16 @@
         }
 
         #received-messages-container .json {
-            color: green; /* Color JSON messages differently */
+            color: green;
+            /* Color JSON messages differently */
         }
 
         #socket-icon {
             position: absolute;
             top: 10px;
             right: 10px;
-            fill: grey; /* Initial color is grey */
+            fill: grey;
+            /* Initial color is grey */
             width: 24px;
             height: 24px;
         }
@@ -184,19 +201,19 @@
         }
     </style>
 </head>
+
 <body>
-    <h1>Supercharge your document processing</h1>
+    <h1>Try MuleSoft Intelligent Document Processing</h1>
     <svg id="socket-icon" viewBox="0 0 24 24">
-        <path fill="none" d="M0 0h24v24H0z"/>
-        <path d="M12 3C6.48 3 2 7.48 2 13s4.48 10 10 10 10-4.48 10-10S17.52 3 12 3zm1.4 11.4l-1.4 1.4c.4.6.6 1.3.6 2.1 0 1.9-1.5 3.4-3.4 3.4-.8 0-1.6-.3-2.2-.7l1.4-1.4c.4.2.9.3 1.4.3.5 0 1-.2 1.4-.3zM10.9 11.3c.6.4 1.3.7 2.2.7 1.9 0 3.4-1.5 3.4-3.4 0-.8-.3-1.6-.7-2.2l1.4-1.4c.4.6.7 1.3.7 2.2 0 2.2-1.8 4-4 4-.9 0-1.7-.3-2.3-.8zM12 15c-2.2 0-4-1.8-4-4s1.8-4 4-4c1.3 0 2.5.6 3.4 1.6.5.6.5 1.6 0 2.2-.6.5-1.6.5-2.2 0-.6-.6-1.4-1-2.2-1-.6 0-1.2.2-1.7.5l1.3 1.3c.7-.4 1.5-.6 2.4-.6 2.2 0 4 1.8 4 4s-1.8 4-4 4z"/>
+        <path fill="none" d="M0 0h24v24H0z" />
+        <path d="M12 3C6.48 3 2 7.48 2 13s4.48 10 10 10 10-4.48 10-10S17.52 3 12 3zm1.4 11.4l-1.4 1.4c.4.6.6 1.3.6 2.1 0 1.9-1.5 3.4-3.4 3.4-.8 0-1.6-.3-2.2-.7l1.4-1.4c.4.2.9.3 1.4.3.5 0 1-.2 1.4-.3zM10.9 11.3c.6.4 1.3.7 2.2.7 1.9 0 3.4-1.5 3.4-3.4 0-.8-.3-1.6-.7-2.2l1.4-1.4c.4.6.7 1.3.7 2.2 0 2.2-1.8 4-4 4-.9 0-1.7-.3-2.3-.8zM12 15c-2.2 0-4-1.8-4-4s1.8-4 4-4c1.3 0 2.5.6 3.4 1.6.5.6.5 1.6 0 2.2-.6.5-1.6.5-2.2 0-.6-.6-1.4-1-2.2-1-.6 0-1.2.2-1.7.5l1.3 1.3c.7-.4 1.5-.6 2.4-.6 2.2 0 4 1.8 4 4s-1.8 4-4 4z" />
     </svg>
     <div class="button-container">
         <button id="open-btn">Open Connection</button>
         <button id="capture-btn" disabled>Capture Image</button>
         <button id="send-btn" disabled>Send Image</button>
         <button id="close-btn" disabled>Close Connection</button>
-        <!-- Add the clear messages button -->
-        <button id="clear-msg-btn">Clear Messages</button>
+        <button id="clear-msg-btn" disabled>Clear Messages</button>
     </div>
     <div class="container">
         <div class="left-container">
@@ -212,7 +229,6 @@
             <div id="received-messages-container"></div>
         </div>
     </div>
-
     <div id="popup">
         <span id="close-popup">&times;</span>
         <img id="full-size-image" src="" alt="Full Size Image">
@@ -237,69 +253,73 @@
         let websocket;
         let socketId; // Store socket ID
 
-        // Function to enable or disable the Capture Image, Send Image, and Close Connection buttons
-        function toggleButtons(enable) {
+        // Function to enable or disable the Capture Image button
+        function toggleCaptureButton(enable) {
             captureButton.disabled = !enable;
+        }
+
+        // Function to enable or disable the Send Image button
+        function toggleSendButton(enable) {
             sendButton.disabled = !enable;
+        }
+
+        // Function to enable or disable the Close Connection button
+        function toggleCloseButton(enable) {
             closeButton.disabled = !enable;
+            openButton.disabled = enable; // Disable open button when close button is enabled
+        }
+
+        // Function to enable or disable the Clear Messages button
+        function toggleClearMsgButton(enable) {
+            clearMsgButton.disabled = !enable;
         }
 
         // Access the user's camera
         function accessCamera() {
             navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: 'environment', // Use the back camera if available
-                    width: { ideal: 4096 },    // Set width constraint to optimal for document capture
-                    height: { ideal: 2160 }    // Set height constraint to optimal for document capture
-                }
-            })
-            .then(function (cameraStream) {
-                stream = cameraStream;
-                video.srcObject = cameraStream;
-                video.play();
-            })
-            .catch(function (error) {
-                console.error('Error accessing the camera: ', error);
-            });
+                    video: {
+                        facingMode: 'environment', // Use the back camera if available
+                        width: {
+                            ideal: 4096
+                        }, // Set width constraint to optimal for document capture
+                        height: {
+                            ideal: 2160
+                        } // Set height constraint to optimal for document capture
+                    }
+                })
+                .then(function (cameraStream) {
+                    stream = cameraStream;
+                    video.srcObject = cameraStream;
+                    video.play();
+                })
+                .catch(function (error) {
+                    console.error('Error accessing the camera: ', error);
+                });
         }
 
         // Function to capture image
         function captureImage() {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            imageData = canvas.toDataURL('image/jpeg');
-
-            // Get current time
+            imageData = canvas.toDataURL('image/jpeg'); // Get current time
             const now = new Date();
             const hour = now.getHours().toString().padStart(2, '0');
             const minute = now.getMinutes().toString().padStart(2, '0');
-            const second = now.getSeconds().toString().padStart(2, '0');
-
-            // Append hour, minute, and second to document name
-            const imageName = `image_${hour}${minute}${second}.png`;
-
-            // Store documentName in websocket object
-            websocket.documentName = imageName;
-
-            // Display the captured image as a thumbnail
+            const second = now.getSeconds().toString().padStart(2, '0'); // Append hour, minute, and second to document name
+            const imageName = `image_${hour}${minute}${second}.png`; // Store documentName in websocket object
+            websocket.documentName = imageName; // Display the captured image as a thumbnail
             const thumbnail = new Image();
             thumbnail.src = imageData;
-            thumbnail.classList.add('thumbnail');
-
-            // Remove previous thumbnails
+            thumbnail.classList.add('thumbnail'); // Remove previous thumbnails
             const previousThumbnails = document.querySelectorAll('.thumbnail');
-            previousThumbnails.forEach(thumb => thumb.remove());
-
-            // Append the new thumbnail
-            messageContainer.appendChild(thumbnail);
-
-            // Make thumbnail clickable to display full-sized image
-            thumbnail.addEventListener('click', function() {
+            previousThumbnails.forEach(thumb => thumb.remove()); // Append the new thumbnail
+            messageContainer.appendChild(thumbnail); // Make thumbnail clickable to display full-sized image
+            thumbnail.addEventListener('click', function () {
                 fullSizeImage.src = imageData;
                 popup.style.display = 'flex';
             });
+            toggleSendButton(true); // Enable Send Image button
         }
 
         // Function to send image to websocket
@@ -308,27 +328,18 @@
                 console.error('WebSocket connection is not open');
                 return;
             }
-
             if (!imageData) {
                 console.error('No captured image to send');
                 return;
-            }
-
-            // Convert data URL to binary data
+            } // Convert data URL to binary data
             const byteString = atob(imageData.split(',')[1]);
             const arrayBuffer = new ArrayBuffer(byteString.length);
             const uint8Array = new Uint8Array(arrayBuffer);
             for (let i = 0; i < byteString.length; i++) {
                 uint8Array[i] = byteString.charCodeAt(i);
-            }
-
-            // Send binary data to websocket
+            } // Send binary data to websocket
             websocket.send(arrayBuffer);
-
-            console.log('Image sent to websocket');
-
-            // Display message sent status along with document name
-            //displayStatusMessage(`Message sent to socket`, socketId);
+            console.log('Image sent to websocket'); // Display message sent status along with document name //displayStatusMessage(`Message sent to socket`, socketId);
         }
 
         // Function to open websocket connection
@@ -336,45 +347,38 @@
             if (websocket && websocket.readyState === WebSocket.OPEN) {
                 console.warn('WebSocket connection is already open');
                 return;
-            }
-
-            // Determine the protocol based on whether the webpage was loaded over http or https
+            } // Determine the protocol based on whether the webpage was loaded over http or https
             const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
             const socketURL = wsProtocol + window.location.hostname + ':' + window.location.port + '/websocket/idp';
-
             websocket = new WebSocket(socketURL);
             socketId = Math.random().toString(36).substring(2, 8); // Generate random socket ID
-
             websocket.onopen = function () {
                 console.log('WebSocket connection opened');
-                toggleButtons(true); // Enable Capture Image, Send Image, and Close Connection buttons
-                console.log('Socket Icon:', socketIcon); // Log socketIcon
-                if(socketIcon) socketIcon.style.fill = 'green'; // Change icon color to green if socketIcon is not null
-                // Display socket opened status
-                //displayStatusMessage('Socket opened', socketId);
+                toggleCaptureButton(true); // Enable Capture Image button
+                toggleCloseButton(true); // Enable Close Connection button
+                if (socketIcon) socketIcon.style.fill = 'green'; // Change icon color to green if socketIcon is not null
+                console.log('Socket Icon:', socketIcon);
+                // Log socketIcon
+                // Display socket opened status //displayStatusMessage('Socket opened', socketId);
             };
-
             websocket.onerror = function (error) {
-                console.error('WebSocket error:', error);
-                // Display socket error
+                console.error('WebSocket error:', error); // Display socket error
                 displayStatusMessage('Socket error', socketId);
             };
-
             websocket.onclose = function () {
                 console.log('WebSocket connection closed');
-                toggleButtons(false); // Disable Capture Image, Send Image, and Close Connection buttons
-                if(socketIcon) socketIcon.style.fill = 'grey'; // Change icon color to grey if socketIcon is not null
+                toggleCaptureButton(false); // Disable Capture Image button
+                toggleSendButton(false); // Disable Send Image button
+                toggleCloseButton(false); // Disable Close Connection button
+                if (socketIcon) socketIcon.style.fill = 'grey'; // Change icon color to grey if socketIcon is not null
                 // Display socket closed status
                 displayStatusMessage('Socket closed', socketId);
             };
-
-            websocket.onmessage = function(event) {
+            websocket.onmessage = function (event) {
                 const message = event.data;
                 try {
-                    const jsonMessage = JSON.parse(message);
-                    // Parse JSON message as text and display
-                    showMessage(jsonMessage);
-                    // Display received message status
+                    const jsonMessage = JSON.parse(message); // Parse JSON message as text and display
+                    showMessage(jsonMessage); // Display received message status
                     //displayStatusMessage(`Message received from socket`, socketId);
                 } catch (error) {
                     console.error('Error parsing JSON message:', error);
@@ -388,13 +392,13 @@
                 console.warn('WebSocket connection is already closed');
                 return;
             }
-
             websocket.close();
         }
 
         // Function to clear all status messages
         function clearMessages() {
             receivedMessagesContainer.innerHTML = ''; // Clear all children
+            toggleClearMsgButton(false); // Disable Clear Messages button
         }
 
         // Function to display message in message container
@@ -403,13 +407,12 @@
             messageElement.classList.add('message');
             const now = new Date();
             messageElement.textContent = `${now.toLocaleString()} - Received Message:`;
-
             const pre = document.createElement('pre');
             pre.textContent = JSON.stringify(message, null, 2); // Pretty print JSON
             pre.classList.add('json');
             messageElement.appendChild(pre);
-
             receivedMessagesContainer.insertBefore(messageElement, receivedMessagesContainer.firstChild);
+            toggleClearMsgButton(true); // Enable Clear Messages button
         }
 
         // Function to display status message
@@ -417,15 +420,14 @@
             const statusMessage = document.createElement('div');
             const now = new Date();
             //statusMessage.textContent = `${now.toLocaleString()} - Socket ${socketId}: ${message}`; // Add timestamp and socket ID
-            statusMessage.textContent = `${now.toLocaleString()} -  ${message}`; // Add timestamp and socket ID
+            statusMessage.textContent = `${now.toLocaleString()} - ${message}`; // Add timestamp and socket ID
             statusMessage.classList.add('status-message');
             receivedMessagesContainer.insertBefore(statusMessage, receivedMessagesContainer.firstChild);
         }
 
         // Event listeners
-        captureButton.addEventListener('click', function() {
-            captureImage();
-            // Display timestamp
+        captureButton.addEventListener('click', function () {
+            captureImage(); // Display timestamp
             const now = new Date();
             timestamp.textContent = 'Captured on: ' + now.toLocaleString();
         });
@@ -439,11 +441,12 @@
         clearMsgButton.addEventListener('click', clearMessages);
 
         // Adjust overlay position and size based on video dimensions
-        video.addEventListener('loadedmetadata', function() {
-            const { videoWidth, videoHeight } = video;
-            const aspectRatio = videoWidth / videoHeight;
-
-            // Calculate dimensions for the overlay
+        video.addEventListener('loadedmetadata', function () {
+            const {
+                videoWidth,
+                videoHeight
+            } = video;
+            const aspectRatio = videoWidth / videoHeight; // Calculate dimensions for the overlay
             let overlayWidth, overlayHeight;
             if (aspectRatio >= 1) {
                 overlayWidth = video.offsetWidth * 0.8; // 80% of video width
@@ -451,9 +454,7 @@
             } else {
                 overlayHeight = video.offsetHeight * 0.8; // 80% of video height
                 overlayWidth = overlayHeight * aspectRatio;
-            }
-
-            // Position the overlay at the center of the video
+            } // Position the overlay at the center of the video
             overlay.style.width = overlayWidth + 'px';
             overlay.style.height = overlayHeight + 'px';
         });
@@ -462,8 +463,7 @@
         const popup = document.getElementById('popup');
         const fullSizeImage = document.getElementById('full-size-image');
         const closePopup = document.getElementById('close-popup');
-
-        closePopup.addEventListener('click', function() {
+        closePopup.addEventListener('click', function () {
             popup.style.display = 'none';
         });
 
@@ -471,4 +471,5 @@
         accessCamera();
     </script>
 </body>
+
 </html>

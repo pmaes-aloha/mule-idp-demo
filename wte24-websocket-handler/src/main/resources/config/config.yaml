@@ -1,13 +1,13 @@
 idp:
-  host: "idp-rt.us-east-1.stgx.anypoint.mulesoft.com"
-  accessTokenUrl: "https://stgx.anypoint.mulesoft.com/accounts/api/v2/oauth2/token"
-  clientId: "c0da0c7f23124108ae7da6e47aaf9a2e"
-  clientSecret: "47728601379F42b486A366D550A74755"
-  actionId: "0e4b4285-99d7-4b14-94ce-58bf5a75f0ec"
-  actionVersion: "1.2.0"
+  host: "idp-rt.us-east-1.anypoint.mulesoft.com"
+  accessTokenUrl: "https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token"
+  clientId: "2de049425523482ca2ef37c04fe2717d"
+  clientSecret: "91b197ACc8844C30bC5F2B856A7FbFCb"
+  actionId: "691a5f45-60dd-4937-a016-0cf9454d17b0"
+  actionVersion: "1.1.0"
 
 mulesoft:
-  orgId: "c6cabd5c-742d-44d0-84b7-9e5b861e0da9"
+  orgId: "1ac9a609-b63f-4a10-99c3-e81c5722dd95"
   pollingFrequency: "30"
   
 http:
