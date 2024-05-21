@@ -14,14 +14,62 @@
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            /* Make sure it covers the whole viewport */
             margin: 0;
             padding: 0;
+            position: relative; /* Ensure positioning for absolute elements */
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 100px;
+            margin-right: 20px;
         }
 
         h1 {
             color: #333;
+            margin-right: auto; /* Push title to the left */
         }
+
+.button-container {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    padding: 20px;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: column; /* Display buttons vertically */
+    align-items: flex-start; /* Align buttons to the left */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px; /* Add some space between buttons */
+}
+
+button:disabled {
+    background-color: #ccc;
+    color: #999;
+    cursor: not-allowed;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 
         .container {
             display: flex;
@@ -29,21 +77,17 @@
             align-items: flex-start;
             width: 100%;
             max-width: 1200px;
-            /* Maximum width for the entire content */
-            margin-top: 20px;
-            /* Add top margin */
+            margin-bottom: 20px;
         }
 
         .left-container {
             flex: 1;
             margin-right: 20px;
-            /* Spacing between left and right containers */
         }
 
         .right-container {
             flex: 1;
             margin-left: 20px;
-            /* Spacing between left and right containers */
         }
 
         .video-container {
@@ -55,13 +99,9 @@
             border: 2px solid #333;
             display: block;
             width: 100%;
-            /* Adjust width to fill container */
             height: auto;
-            /* Let height adjust automatically */
             max-width: 640px;
-            /* Limit maximum width */
             object-fit: contain;
-            /* Maintain aspect ratio */
         }
 
         .overlay {
@@ -72,42 +112,12 @@
             border: 2px dashed #FF0000;
             box-sizing: border-box;
             pointer-events: none;
-            /* Make the overlay non-interactive */
             z-index: 2;
-            /* Ensure the overlay is above the video */
         }
 
         .thumbnail {
             max-width: 200px;
-            /* Limit the width of the thumbnail */
             margin-bottom: 10px;
-            /* Add some space below the thumbnail */
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
-        button:disabled {
-            background-color: #ccc;
-            color: #999;
-            cursor: not-allowed;
-        }
-
-        button:hover {
-            background-color: #0056b3;
         }
 
         .message-container {
@@ -127,7 +137,6 @@
 
         .json {
             color: green;
-            /* Color JSON messages differently */
         }
 
         .status-message {
@@ -160,7 +169,6 @@
 
         #received-messages-container .json {
             color: green;
-            /* Color JSON messages differently */
         }
 
         #socket-icon {
@@ -168,9 +176,9 @@
             top: 10px;
             right: 10px;
             fill: grey;
-            /* Initial color is grey */
             width: 24px;
             height: 24px;
+            z-index: 999; /* Ensure it's above other content */
         }
 
         #popup {
@@ -181,7 +189,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
@@ -198,22 +206,24 @@
             cursor: pointer;
             color: white;
             font-size: 24px;
+            z-index: 1000; /* Ensure it's above other content */
         }
     </style>
 </head>
 
 <body>
-    <h1>Try MuleSoft Intelligent Document Processing</h1>
-    <svg id="socket-icon" viewBox="0 0 24 24">
-        <path fill="none" d="M0 0h24v24H0z" />
-        <path d="M12 3C6.48 3 2 7.48 2 13s4.48 10 10 10 10-4.48 10-10S17.52 3 12 3zm1.4 11.4l-1.4 1.4c.4.6.6 1.3.6 2.1 0 1.9-1.5 3.4-3.4 3.4-.8 0-1.6-.3-2.2-.7l1.4-1.4c.4.2.9.3 1.4.3.5 0 1-.2 1.4-.3zM10.9 11.3c.6.4 1.3.7 2.2.7 1.9 0 3.4-1.5 3.4-3.4 0-.8-.3-1.6-.7-2.2l1.4-1.4c.4.6.7 1.3.7 2.2 0 2.2-1.8 4-4 4-.9 0-1.7-.3-2.3-.8zM12 15c-2.2 0-4-1.8-4-4s1.8-4 4-4c1.3 0 2.5.6 3.4 1.6.5.6.5 1.6 0 2.2-.6.5-1.6.5-2.2 0-.6-.6-1.4-1-2.2-1-.6 0-1.2.2-1.7.5l1.3 1.3c.7-.4 1.5-.6 2.4-.6 2.2 0 4 1.8 4 4s-1.8 4-4 4z" />
-    </svg>
+    <div class="logo-container">
+        <img class="logo" src="../image/mulesoft_logo_icon_170933.svg" alt="MuleSoft Logo">
+        <h1>Try MuleSoft Intelligent Document Processing</h1>
+    </div>
     <div class="button-container">
-        <button id="open-btn">Open Connection</button>
-        <button id="capture-btn" disabled>Capture Image</button>
-        <button id="send-btn" disabled>Send Image</button>
-        <button id="close-btn" disabled>Close Connection</button>
-        <button id="clear-msg-btn" disabled>Clear Messages</button>
+        <div class="button-wrapper">
+            <button id="open-btn">Open Connection</button>
+            <button id="capture-btn" disabled>Capture Image</button>
+            <button id="send-btn" disabled>Send Image</button>
+            <button id="close-btn" disabled>Close Connection</button>
+            <button id="clear-msg-btn" disabled>Clear Messages</button>
+        </div>
     </div>
     <div class="container">
         <div class="left-container">
@@ -233,6 +243,10 @@
         <span id="close-popup">&times;</span>
         <img id="full-size-image" src="" alt="Full Size Image">
     </div>
+    <!-- Add your SVG for the socket icon here -->
+    <svg id="socket-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5.41L17.59 4 7.59 14 9 15.41 19 5.41zM16.17 7.58L14.76 6.17l-1.42 1.42 1.41 1.41 1.42-1.43zM19.71 10.71l-1.41-1.42-1.42 1.42 1.41 1.41 1.42-1.41zM12 15a3.973 3.973 0 0 0-3.86 3H5v2h2v2H5v2h2v2h2v-2h4c1.5 0 2.85-.85 3.54-2.18l1.17-2.36A3.957 3.957 0 0 0 12 15zm-2 4a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>
+
+
 
     <script>
         const video = document.getElementById('video');

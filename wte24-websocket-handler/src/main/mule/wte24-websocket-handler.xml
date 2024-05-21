@@ -222,7 +222,12 @@ payload]]></ee:set-payload>
 		<http:listener doc:name="html get" doc:id="4e4679ec-ffee-4344-8ff3-da86d0333cdb" config-ref="HTTP_Listener_config" path="/html/*" allowedMethods="GET">
 		</http:listener>
 		<logger level="INFO" doc:name="Logger" doc:id="f82afbb1-fc6d-4972-b8b7-9e34411e4d96" message="workdir :[${mule.home}]"/>
-		<set-variable value="${app.home}/webapp" doc:name="Set Variable" doc:id="41264df4-34f7-4cdf-82eb-f2af7ed33b5b" variableName="varHtmlPath"/>
-		<http:load-static-resource doc:name="Load static resource" doc:id="24d560e9-f6fd-49b3-b29c-c764c6f9748e" resourceBasePath="#[vars.varHtmlPath]"/>
+		<set-variable value="${app.home}/webapp" doc:name="Set path" doc:id="41264df4-34f7-4cdf-82eb-f2af7ed33b5b" variableName="varHtmlPath"/>
+		<http:load-static-resource doc:name="Load html resource" doc:id="24d560e9-f6fd-49b3-b29c-c764c6f9748e" resourceBasePath="#[vars.varHtmlPath]"/>
+	</flow>
+	<flow name="load-images" doc:id="920198bc-1daa-44a3-8f83-8a96811e93bb" >
+		<http:listener doc:name="image get" doc:id="e39ff26a-4210-451c-8efc-07f26de12e30" config-ref="HTTP_Listener_config" path="/image/*" allowedMethods="GET"/>
+		<set-variable value="${app.home}/webapp" doc:name="Set path" doc:id="028e8700-c245-4125-8df4-1c6c24e46e81" variableName="varPath"/>
+		<http:load-static-resource doc:name="Load image resource" doc:id="8c6ad6f2-6c61-46d6-b827-b8f947fcbc15" outputMimeType="image/svg+xml" resourceBasePath="#[vars.varPath]"/>
 	</flow>
 </mule>
