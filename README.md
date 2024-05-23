@@ -1,108 +1,125 @@
-```markdown
-# MuleSoft Intelligent Document Processing (IDP)
+# MuleSoft IDP Demo Application
 
-Welcome to MuleSoft IDP! This application enables you to capture images using your device's camera, process them, and interact with a WebSocket server for intelligent document processing.
+This MuleSoft application provides an interactive demo of MuleSoft's Intelligent Document Processing (IDP) capabilities.   It is a comprehensive package inclusive of a webclient (the MuleSoft IDP HTML page) that allows to take a picture of the document and then submit it for processing. The processing results are displayed on the webclient as well.
 
 ## Table of Contents
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Buttons and Their Functions](#buttons-and-their-functions)
-- [UI Components](#ui-components)
-- [Technical Details](#technical-details)
 
-## Features
-- Capture images using the device's camera.
-- Send captured images to a WebSocket server.
-- Display received messages from the WebSocket server.
-- Clear message history.
+1. [Prerequisites](#prerequisites)
+2. [Configuration](#configuration)
+   - [Configuration Properties](#configuration-properties)
+   - [MuleSoft IDP Connector Configuration](#mulesoft-idp-connector-configuration)
+3. [Flows](#flows)
+   - [Handle WebSocket Open](#handle-websocket-open)
+   - [Handle WebSocket Inbound Message](#handle-websocket-inbound-message)
+   - [Poll Object Store Execution ID](#poll-object-store-execution-id)
+   - [Handle WebSocket Closed](#handle-websocket-closed)
+   - [Verify Execution ID Status](#verify-execution-id-status)
+   - [Reset All Object Stores](#reset-all-object-stores)
+   - [Retrieve Object Store Contents](#retrieve-object-store-contents)
+   - [Load Main Page](#load-main-page)
+   - [Load Images](#load-images)
+4. [Using the MuleSoft IDP HTML Page](#using-the-mulesoft-idp-html-page)
+5. [Running the Application](#running-the-application)
+6. [License](#license)
 
-## Getting Started
+## Prerequisites
 
-To start using the MuleSoft IDP application, follow these steps:
+- MuleSoft Anypoint Platform
+- MuleSoft IDP Connector (George Jeffcock)
+- WebSocket support in MuleSoft
+- An HTTP client for testing (e.g., Postman)
 
-1. **Open Connection:** Establish a WebSocket connection.
-2. **Capture Image:** Capture an image using your device's camera.
-3. **Send Image:** Send the captured image to the WebSocket server.
-4. **Close Connection:** Close the WebSocket connection when done.
+## Configuration
 
-## Usage
+### Configuration Properties
 
-### Opening the Connection
-1. Click the **"Open Connection"** button. This initializes and opens a WebSocket connection to the server.
+Configuration properties are defined in `config/config.yaml`. Ensure the following properties are set:
 
-### Capturing an Image
-1. Click the **"Capture Image"** button. This will capture an image from your device's camera and display a thumbnail of the captured image.
+- `http.port`: Port for the HTTP listener
+- `idp.host`: Host for the IDP service
+- `idp.clientId`: Client ID for IDP authentication
+- `idp.clientSecret`: Client Secret for IDP authentication
+- `idp.accessTokenUrl`: URL to obtain access tokens from IDP
+- `mulesoft.orgId`: Organization ID for IDP actions
+- `idp.actionId`: IDP action ID for document submission
+- `idp.actionVersion`: Version of the IDP action
+- `mulesoft.pollingFrequency`: Polling frequency in seconds
 
-### Sending the Image
-1. After capturing an image, click the **"Send Image"** button. This will send the captured image to the WebSocket server.
+### MuleSoft IDP Connector Configuration
 
-### Closing the Connection
-1. Click the **"Close Connection"** button to close the WebSocket connection.
+The IDP connector configuration includes authentication details for interacting with the IDP service.
 
-### Clearing Messages
-1. Click the **"Clear Messages"** button to clear the message history displayed on the page.
+## Flows
 
-## Buttons and Their Functions
+### Handle WebSocket Open
 
-- **Open Connection:** Opens the WebSocket connection.
-- **Capture Image:** Captures an image from the camera feed.
-- **Send Image:** Sends the captured image to the WebSocket server.
-- **Close Connection:** Closes the WebSocket connection.
-- **Clear Messages:** Clears all messages from the message display area.
+This flow handles the opening of new WebSocket connections, logs the event, stores the socket ID, and sends a response to the client.
 
-## UI Components
+### Handle WebSocket Inbound Message
 
-### Logo and Title
-- **Logo:** Displays the MuleSoft logo.
-- **Title:** "Try MuleSoft Intelligent Document Processing".
+This flow processes inbound WebSocket messages, submits the document to IDP, and stores the execution ID.
 
-### Camera and Capture Area
-- **Video Feed:** Displays the live video feed from the device's camera.
-- **Overlay:** An overlay for capturing the image.
-- **Canvas:** A hidden canvas used for image processing.
+### Poll Object Store Execution ID
 
-### Message Display
-- **Message Container:** Displays the captured image as a thumbnail.
-- **Timestamp:** Shows the timestamp of the captured image.
-- **Received Messages Container:** Displays messages received from the WebSocket server.
+This flow periodically checks the execution IDs stored in the object store, polls for results from IDP, and sends the results to the corresponding WebSocket clients.
 
-### Popup
-- **Popup Window:** Displays the full-size image when a thumbnail is clicked.
-- **Close Button:** Closes the popup window.
+### Handle WebSocket Closed
 
-### WebSocket Status Icon
-- **Socket Icon:** Indicates the status of the WebSocket connection (green for open, grey for closed).
+This flow handles the closure of WebSocket connections, logs the event, and removes the socket ID from the object store.
 
-## Technical Details
+### Verify Execution ID Status
 
-- The application uses the device's camera to capture images, which are then displayed and can be sent to a WebSocket server.
-- WebSocket connection management is handled through buttons that enable and disable functionalities based on the connection status.
-- The WebSocket server URL is dynamically determined based on the protocol (http or https).
+This flow verifies the status of an execution ID provided via a URL parameter and sends the result back to the client.
 
-### Scripts and Event Listeners
-- **Access Camera:** Automatically accesses the camera when the page loads.
-- **Capture Image:** Captures an image from the video feed and displays a thumbnail.
-- **Send Image:** Sends the captured image data to the WebSocket server.
-- **WebSocket Management:** Handles opening, closing, and managing the WebSocket connection.
-- **Clear Messages:** Clears the message display area.
-- **Popup Management:** Manages the display and closure of the image popup.
+### Reset All Object Stores
 
-### Styling
-- The application uses a responsive layout with a centered logo and title, vertically aligned buttons, and flexbox containers for the video feed and message display areas.
+This flow resets all the object stores by removing all entries.
 
-### Server Configuration (MuleSoft)
-- The application is packaged as a MuleSoft .jar , prior to usage make sure to change config.yaml to change all idp and mulesoft key values with your own. You will need an anypoint org with IDP enabled and one action published.
-- The application was developed for Mule 4 and tested on cloudhub 2
-- The Mule app is self containing, it contains both the webpage frontend as the backend components
-- The application uses the object store to store the active sockets and another one to store the IDP executionids (keys) and the socketid as values.
-- Multiple concurrent socket web clients ( = multiple demoes) are supported though not tested
+### Retrieve Object Store Contents
 
-## Notes
-- Ensure your browser has permissions to access the camera.
-- The application is designed to use the back camera if available, ideal for document capture.
-- WebSocket communication requires a server endpoint to connect and process the captured images.
+This flow retrieves the contents of the object stores and returns them in the HTTP response.
 
-Enjoy using MuleSoft IDP for intelligent document processing!
-```
+### Load Main Page
+
+This flow serves the main HTML page of the application to the client.
+
+### Load Images
+
+This flow serves image resources to the client.
+
+## Using the MuleSoft IDP HTML Page
+
+The MuleSoft IDP HTML page allows users to interact with the WebSocket endpoint for document submission and result retrieval. Follow these steps to use the page:
+
+1. **Access the HTML Page**:
+   - Open a web browser and navigate to the main page served by the application. The URL is  `http://host:{http.port}/html/index.html`.
+
+2. **Connect to the WebSocket**:
+   - Click the "Connect WebSocket" button on the page to establish a WebSocket connection to the server. 
+   - You should see a message indicating that the WebSocket connection has been opened.
+
+2. **Capture a Document**:
+   - Position your document so it fits in the red rectangle on the video element
+   - Click the "Capture Image" button on the page to capture the image. 
+   - You should see a thumbnail with the captured document, clicking on the thumbnail will open a popup with a full size view of the captured image .
+
+3. **Submit a Document**:
+   - Enter the text of the document you wish to process in the textarea provided.
+   - Click the "Send Document" button to submit the document through the WebSocket connection.
+   - You will see a message indicating that the document has been sent.
+
+4. **View Results**:
+   - As the server processes the document, any results or updates will be sent back through the WebSocket connection and displayed in the "Messages" section of the page.
+   - Look for messages indicating the status of your document processing and the final results.
+
+5. **Disconnect the WebSocket**:
+   - Click the "Disconnect WebSocket" button to close the WebSocket connection when you are finished.
+
+## Running the Application
+
+1. Deploy the application on MuleSoft Anypoint Platform.
+2. Ensure all configuration properties are correctly set in `config/config.yaml`.
+3. Use the provided HTML page to interact with the WebSocket endpoint.
+4. Use the HTTP endpoints to manage and monitor object stores.
+
 
