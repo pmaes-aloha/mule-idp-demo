@@ -23,6 +23,10 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 	<configuration-properties doc:name="Configuration properties" doc:id="d60c87b1-6f88-40da-979c-d34882ad460c" file="config/config.yaml" />
 	<os:object-store name="executionID" doc:name="Object store" doc:id="38efd2d6-12ed-4e50-b8b2-cbf5f1f8dcde" />
 	<os:object-store name="socketId" doc:name="Object store" doc:id="a41b68b0-28d8-464a-96eb-8dda1cc69b0a" />
+	<os:object-store name="webclientconfig" doc:name="Object store" doc:id="e8de74d4-1e78-4e43-8e68-0c57c887cbb2" entryTtl="10" entryTtlUnit="MINUTES"/>
+	<http:request-config name="HTTP_Request_Anypoint" doc:name="HTTP Request configuration" doc:id="965571b6-088a-4f72-bdd4-7afcfccdeaab" >
+		<http:request-connection protocol="${mulesoft.protocol}" host="${mulesoft.host}" />
+	</http:request-config>
 	<flow name="handle-websocket-open" doc:id="9299fe77-8bea-4df8-94ec-e54b19f32f8c" >
 		<websocket:on-inbound-connection doc:name="On New Inbound Connection" doc:id="263e5970-93d0-466e-920a-f9c7adfa4ab3" config-ref="WebSockets_Config" path="/idp"/>
 		<logger level="INFO" doc:name="Logger" doc:id="fb2abc13-f091-428e-ad85-5b12cfcd8a62" message="#[payload]"/>
@@ -48,14 +52,13 @@ output application/json
 	</flow>
 	<flow name="handle-websocket-inboundMessage" doc:id="ddecefec-bc65-4a3c-9e71-9b9938a0492a" >
 		<websocket:inbound-listener doc:name="On New Inbound Message" doc:id="d9b4c12a-0581-4157-a8c9-d4c3014f992c" config-ref="WebSockets_Config" path="/idp"/>
-		<logger level="INFO" doc:name="Logger" doc:id="cd5bc7b1-9a93-4987-b461-e27c22792e75" message="received message " />
+		<logger level="INFO" doc:name="Logger" doc:id="cd5bc7b1-9a93-4987-b461-e27c22792e75" message="received message   #[payload]" />
 		<set-variable value="#[attributes.socketId]" doc:name="Set Variable socketID" doc:id="8d662dd5-10cd-4ad4-99d7-91a5a6de73d6" variableName="socketId"/>
-		<set-variable value='#["image_" ++ now() ++ ".png"]' doc:name="Set Variable fileName" doc:id="297c47ec-404a-433b-bc1f-854090644bb2" variableName="fileName"/>
-		<mule-soft-idp-connector:idp_--submit-doc doc:name="IDP - Submit Doc" doc:id="7959f216-4f19-485d-8444-718a03f98701" org-id="${mulesoft.orgId}" action-id="${idp.actionId}" action-version="${idp.actionVersion}" config-ref="MuleSoft_IDP_Connector_Config">
+		<flow-ref doc:name="support set the right payload type (parsed or default pdf)" doc:id="fd42b1c9-0c7b-413e-8561-384e4a320159" name="sf-determine-payload-type"/>
+		<mule-soft-idp-connector:idp_--submit-doc doc:name="IDP - Submit Doc" doc:id="7959f216-4f19-485d-8444-718a03f98701" org-id="${mulesoft.orgId}" action-id="#[vars.actionId]" action-version="#[vars.actionVersion]" config-ref="MuleSoft_IDP_Connector_Config">
 			<mule-soft-idp-connector:idp_--submit-doc-request-data ><![CDATA[#[%dw 2.0
-import dw::module::Multipart
 import * from dw::core::Binaries
-output multipart/form-data 
+output java
 ---
 {
     parts : {
@@ -66,7 +69,7 @@ output multipart/form-data
                     "filename": vars.fileName,
                     "subtype": "form-data"
                     },
-                "Content-Type" : "image/png"
+                "Content-Type" : vars.contentType
                 },
             content : payload
             }
@@ -82,11 +85,64 @@ output multipart/form-data
 output application/json
 ---
 {
-	status: "image received and submitted for processing" ,
-	fileName:  vars.fileName
+	status: " file received and submitted for processing" ,
+	fileName:  vars.fileName,
+	"action" : vars.actionId,
+	"actionVersion" : vars.actionVersion
 }]]]></websocket:content>
 		</websocket:send>
 	</flow>
+	<sub-flow name="sf-determine-payload-type" doc:id="cbf594f0-212e-450e-8829-f567155abda7" >
+		<try doc:name="split metadata and incoming doc" doc:id="0f307d34-20a6-4896-82a0-abedc1b0e71e" >
+			<set-payload value="#[message.payload]" doc:name="Set Payload MIME Type" doc:id="2b71deb1-63c2-4ad3-ad23-32197f71acf1" mimeType="application/json" encoding="UTF-8"/>
+			<ee:transform doc:name="Assign variables and payload" doc:id="78441f67-0107-49c1-bfe1-936e801fe3c8" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Binaries
+output application/octet-stream
+---
+fromBase64(payload.fileData)]]></ee:set-payload>
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="fileName" ><![CDATA[%dw 2.0
+var myfileName = now() ++ (message.payload.metadata.documentName default "")
+---
+myfileName]]></ee:set-variable>
+					<ee:set-variable variableName="contentType" ><![CDATA[%dw 2.0
+var parsedContentType = message.payload.metadata."type" as String default ""
+---
+parsedContentType match {
+  case literalMatch: "pdf" -> "application/pdf"
+  else ->"image/png"
+}]]></ee:set-variable>
+					<ee:set-variable variableName="actionId" ><![CDATA[%dw 2.0
+output application/java
+---
+if  (payload.metadata.selectedAction?)
+(message.payload.metadata.selectedAction )
+else
+(p('idp.actionId'))
+	
+	
+]]></ee:set-variable>
+					<ee:set-variable variableName="actionVersion" ><![CDATA[%dw 2.0
+output application/java
+---
+if  (payload.metadata.selectedActionVersion?)
+(message.payload.metadata.selectedActionVersion )
+else
+(p('idp.actionVersion'))
+	]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<logger level="INFO" doc:name="Logger" doc:id="d56f942d-45ae-462f-82ff-5d5081a8499b" message="not working payload : #[payload]"/>
+			<error-handler>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="01dd1107-aac5-4b62-8331-8e1d596ab23c" >
+					<logger level="INFO" doc:name="Logger" doc:id="04043e20-bfea-41d0-9f02-1c47813320a6" message="oopsi daisy"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+	</sub-flow>
 	<flow name="poll-objectStore-executionId" doc:id="6b0ef670-3d2c-4595-92dc-931a517f5215" >
 		<scheduler doc:name="Scheduler" doc:id="a7abc2ce-0383-4d13-afd2-0519f087dd08" >
 			<scheduling-strategy >
@@ -185,14 +241,27 @@ vars.pollResult]]]></websocket:content>
 				</on-error-continue>
 			</error-handler>
 		</try>
+		
+		<try doc:name="Try to clear webclientconfig store" doc:id="61082ee6-9f6f-4f9a-beac-c096682ab67f" >
+			<os:clear doc:name="Clear" doc:id="db9cb0f9-f685-4df8-af74-ea0ecb7ab569" objectStore="webclientconfig"/>
+			<set-variable value="cleaned" doc:name="Set Variable" doc:id="bc0b5262-3fa2-4c9a-9820-a0128c890521" variableName="webclientconfigStore"/>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="60f29718-d2fa-4763-b7ea-65d40a11ae0e" type="OS:STORE_NOT_AVAILABLE">
+					<logger level="INFO" doc:name="Logger" doc:id="dfa77968-a6ec-4ba5-b0fa-32ce387768d7" message="tried to clear webclientconfigStore objectStore but it was not available"/>
+					<set-variable value="error cleaning" doc:name="Set Variable" doc:id="861db310-8588-4103-9bbe-25b4917ce3c2" variableName="webclientconfigStore"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		
 		<ee:transform doc:name="Transform Message" doc:id="9328aed8-7e2a-420a-a1ab-757a40de00e6" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-"executionIDStore": vars.executionIdStore,
-"bla": vars.socketIdStore
+"executionID": vars.executionIdStore,
+"socketId": vars.socketIdStore,
+"webclientConfig" : vars.webclientconfigStore
 
 }]]></ee:set-payload>
 			</ee:message>
@@ -229,5 +298,116 @@ payload]]></ee:set-payload>
 		<http:listener doc:name="image get" doc:id="e39ff26a-4210-451c-8efc-07f26de12e30" config-ref="HTTP_Listener_config" path="/image/*" allowedMethods="GET"/>
 		<set-variable value="${app.home}/webapp" doc:name="Set path" doc:id="028e8700-c245-4125-8df4-1c6c24e46e81" variableName="varPath"/>
 		<http:load-static-resource doc:name="Load image resource" doc:id="8c6ad6f2-6c61-46d6-b827-b8f947fcbc15" outputMimeType="image/svg+xml" resourceBasePath="#[vars.varPath]"/>
+	</flow>
+	<flow name="webclient_config_settings" doc:id="bb767ad3-f178-4dac-9038-5f8a4383fd5f" >
+		<http:listener doc:name="Listener" doc:id="7a20f6b7-9b78-4fe0-b8f1-e0917a6cc5b5" config-ref="HTTP_Listener_config" path="webclientconfig"/>
+		<os:contains doc:name="Contains" doc:id="24ba3a23-4711-4e9e-9660-b213c8835f94" key="access-token" objectStore="webclientconfig" target="hasBearer"/>
+		<choice doc:name="Choice" doc:id="02103221-636a-44fb-9ac9-b52c45248188" >
+			<when expression="#[!vars.hasBearer]">
+				<logger level="INFO" doc:name="get bearer token" doc:id="723eb20a-8ca3-4c97-8496-5e2ba21ba556" />
+				<set-payload value="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	&quot;username&quot;: p('mulesoft.username'),&#10;	&quot;password&quot;: p('mulesoft.password')&#10;}]" doc:name="Set Payload" doc:id="68d030ac-d6d3-4df9-a837-5f237d98706b" />
+				<http:request method="POST" doc:name="invoke /account/login" doc:id="f95a8166-6648-49a5-bf69-a09c3d95f130" config-ref="HTTP_Request_Anypoint" path="accounts/login" outputMimeType="application/json">
+				</http:request>
+				<os:store doc:name="Store" doc:id="160a9b0a-8f5a-46ca-be51-27c6d5382180" key="access-token" objectStore="webclientconfig">
+					<os:value ><![CDATA[#[payload.access_token]]]></os:value>
+				</os:store>
+				<set-variable value="#[payload.access_token]" doc:name="aToken" doc:id="b1af3cdb-004d-4a3d-9bec-d609f0656726" variableName="aToken"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="ab076dcd-25f0-4797-8063-987ffff7534c" message="bla"/>
+				<os:retrieve doc:name="Retrieve" doc:id="26d193f2-3552-4a6a-841d-65e885fd26e8" key="access-token" objectStore="webclientconfig" target="atoken">
+					<os:default-value ><![CDATA[#["not found"]]]></os:default-value>
+				</os:retrieve>
+			</otherwise>
+		</choice>
+		<http:request method="GET" doc:name="get all idp actions" doc:id="9914e664-cf7e-468c-bc15-c00ff286f9ab" config-ref="HTTP_Request_Anypoint" path="/idp/api/v1/organizations/{organization}/actions?page=0&amp;size=1010&amp;sort=updatedAt,desc">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"authorization" : "bearer " ++ vars.aToken
+}]]]></http:headers>
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"organization" : p('mulesoft.orgId')
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="get an array of actionid and name" doc:id="ac195642-9c0d-4fa0-964c-23901470f27b" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="arActions" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.actions map 
+				{"actionId": $.id,
+				 "name" : $.name
+				}]]></ee:set-variable>
+				<ee:set-variable variableName="objListItems" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<foreach doc:name="For Each actionid" doc:id="d418d09a-36c5-483f-a83a-291b78ea1b78" collection="#[vars.arActions]">
+			<http:request method="GET" doc:name="action" doc:id="e0cff69b-e135-4a94-9263-b0552880f992" config-ref="HTTP_Request_Anypoint" path="/idp/api/v1/organizations/{organizationId}/actions/{actionId}/versions?page=0&amp;size=1000&amp;sort=version,desc" target="objAction">
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"authorization" : "bearer " ++ vars.aToken
+}]]]></http:headers>
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"actionId" : payload.actionId,
+	"organizationId" :  p('mulesoft.orgId')
+}]]]></http:uri-params>
+			</http:request>
+			<ee:transform doc:name="get the  successfully published actionversions" doc:id="4dbc8883-51c6-488f-88d5-13ff86fa4fef" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="arActionVersions" ><![CDATA[%dw 2.0
+output application/java
+---
+vars.objAction filter  ((value,index) -> ! isEmpty(value.operations filter ((op) -> op."type" == "RUNTIME_PUBLICATION" and op.status == "SUCCESS") )) map  $.version]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<choice doc:name="Choice" doc:id="4c6f9721-49b5-4319-b51c-d3c8f8c3c370" >
+				<when expression="#[! isEmpty(vars.arActionVersions)]">
+					<ee:transform doc:name="Transform Message" doc:id="c03cc8ef-b08b-4233-9167-96a035ebbce5" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="objListItem" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	(payload.actionId) :
+					{
+						"text" : payload.name,
+						"versionIds" : vars.arActionVersions
+					}
+}]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<ee:transform doc:name="Transform Message" doc:id="2fa6be38-79c6-49cb-9a2b-be8240a3d2be" >
+						<ee:message >
+						</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="objListItems" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.objListItems ++ vars.objListItem]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+				</when>
+				<otherwise >
+					<logger level="INFO" doc:name="No successfully published versions for actionId" doc:id="d87bb8d2-ac92-43ed-90ce-b3f6c51ffbca" message="No successfully published versions for action #[payload.name]"/>
+				</otherwise>
+			</choice>
+		</foreach>
+		<set-payload value="#[vars.objListItems]" doc:name="Set Payload" doc:id="b7fc3d6f-2e2c-4e3b-b432-ea59792df81a" mimeType="application/json"/>
 	</flow>
 </mule>

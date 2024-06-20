@@ -1,0 +1,787 @@
+[
+  {
+    "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+    "actionId": "3b8dd2a9-4241-40e1-a13c-29fca1056fa5",
+    "version": "1.1.0",
+    "status": "SUCCESS",
+    "configuration": {
+      "content": {
+        "output": {
+          "fields": {
+            "tax": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "total": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "emails": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "dueDate": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "parties": {
+              "buyer": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerUrl": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerName": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerPhone": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerAddress": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              },
+              "billTo": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              },
+              "shipTo": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              },
+              "vendor": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerUrl": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerName": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerPhone": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerAddress": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              }
+            },
+            "subtotal": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "amountDue": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "signatures": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "invoiceDate": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "paymentTerms": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "invoiceNumber": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "purchaseOrderNumber": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            }
+          },
+          "tables": {
+            "table1": {
+              "price": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "endDate": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "quantity": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "startDate": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "unitPrice": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "lineNumber": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "description": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "productCode": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "productType": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "expectedDate": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "unitOfMeasure": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "additionalCharges": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "purchaseOrderNumber": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              }
+            }
+          },
+          "prompts": {
+            "weight": {
+              "hidden": false,
+              "prompt": "What is the weight of the package?",
+              "source": "document",
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "Salesorder": {
+              "hidden": false,
+              "prompt": "What is the sales order of the invoice?",
+              "source": "document",
+              "required": false,
+              "confidenceThreshold": 80
+            }
+          }
+        }
+      },
+      "version": "1.0.0"
+    },
+    "operations": [
+      {
+        "id": "8c6d4893-18fa-4543-9348-f6bd1d0dce3c",
+        "type": "RUNTIME_PUBLICATION",
+        "status": "SUCCESS",
+        "result": "{\"id\":\"09fd8b53-754b-47c7-8a3f-a19f4cf27b5c\",\"organizationId\":\"1ac9a609-b63f-4a10-99c3-e81c5722dd95\",\"actionId\":\"3b8dd2a9-4241-40e1-a13c-29fca1056fa5\",\"actionVersion\":\"1.1.0\"}",
+        "info": {
+          "baseUrl": "https://idp-rt.us-east-1.anypoint.mulesoft.com"
+        },
+        "createdAt": "2024-06-14T10:17:15.184227Z",
+        "updatedAt": "2024-06-14T10:17:15.365077Z"
+      },
+      {
+        "id": "ccdfa03f-9c0e-4967-9dc0-5dd55cd66983",
+        "type": "EXCHANGE_PUBLICATION",
+        "status": "SUCCESS",
+        "result": "{\"status\":\"completed\",\"steps\":[{\"description\":\"Publishing asset\",\"status\":\"completed\",\"errors\":[]}]}",
+        "info": {},
+        "createdAt": "2024-06-14T10:17:15.18853Z",
+        "updatedAt": "2024-06-14T10:17:32.866949Z"
+      }
+    ],
+    "createdAt": "2024-06-14T10:17:15.176521Z",
+    "updatedAt": "2024-06-14T10:17:15.176521Z"
+  },
+  {
+    "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+    "actionId": "3b8dd2a9-4241-40e1-a13c-29fca1056fa5",
+    "version": "1.0.0",
+    "status": "SUCCESS",
+    "configuration": {
+      "content": {
+        "output": {
+          "fields": {
+            "tax": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "total": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "emails": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "dueDate": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "parties": {
+              "buyer": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerUrl": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerName": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerPhone": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerAddress": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              },
+              "billTo": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              },
+              "shipTo": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              },
+              "vendor": {
+                "city": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "name": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "state": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "street": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "address": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "country": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "zipCode": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerUrl": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerName": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerPhone": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "addressBlock": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                },
+                "headerAddress": {
+                  "hidden": false,
+                  "required": false,
+                  "confidenceThreshold": 80
+                }
+              }
+            },
+            "subtotal": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "amountDue": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "signatures": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "invoiceDate": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "paymentTerms": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "invoiceNumber": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "purchaseOrderNumber": {
+              "hidden": false,
+              "required": false,
+              "confidenceThreshold": 80
+            }
+          },
+          "tables": {
+            "table1": {
+              "price": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "endDate": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "quantity": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "startDate": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "unitPrice": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "lineNumber": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "description": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "productCode": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "productType": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "expectedDate": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "unitOfMeasure": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "additionalCharges": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              },
+              "purchaseOrderNumber": {
+                "hidden": false,
+                "required": false,
+                "confidenceThreshold": 80
+              }
+            }
+          },
+          "prompts": {
+            "weight": {
+              "hidden": false,
+              "prompt": "What is the weight of the package?",
+              "source": "document",
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "Salesorder": {
+              "hidden": false,
+              "prompt": "What is the sales order of the invoice?",
+              "source": "document",
+              "required": false,
+              "confidenceThreshold": 80
+            },
+            "total_amount": {
+              "hidden": false,
+              "prompt": "What is the total amount of the order?",
+              "source": "document",
+              "required": false,
+              "confidenceThreshold": 80
+            }
+          }
+        }
+      },
+      "version": "1.0.0"
+    },
+    "operations": [
+      {
+        "id": "0a743fde-7d22-47bc-ad58-e9bb777e009b",
+        "type": "RUNTIME_PUBLICATION",
+        "status": "SUCCESS",
+        "result": "{\"id\":\"da917f8a-28d8-4084-b228-251e138940d5\",\"organizationId\":\"1ac9a609-b63f-4a10-99c3-e81c5722dd95\",\"actionId\":\"3b8dd2a9-4241-40e1-a13c-29fca1056fa5\",\"actionVersion\":\"1.0.0\"}",
+        "info": {
+          "baseUrl": "https://idp-rt.us-east-1.anypoint.mulesoft.com"
+        },
+        "createdAt": "2024-06-03T12:01:52.987384Z",
+        "updatedAt": "2024-06-03T12:01:55.59638Z"
+      },
+      {
+        "id": "1869a17c-b4d9-45ea-ae18-8c277b90382b",
+        "type": "EXCHANGE_PUBLICATION",
+        "status": "SUCCESS",
+        "result": "{\"status\":\"completed\",\"steps\":[{\"description\":\"Publishing asset\",\"status\":\"completed\",\"errors\":[]}]}",
+        "info": {},
+        "createdAt": "2024-06-03T12:01:52.992067Z",
+        "updatedAt": "2024-06-03T12:02:20.294291Z"
+      }
+    ],
+    "createdAt": "2024-06-03T12:01:52.977625Z",
+    "updatedAt": "2024-06-03T12:01:52.977625Z"
+  }
+]

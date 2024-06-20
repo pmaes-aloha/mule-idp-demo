@@ -1,0 +1,34 @@
+%dw 2.0
+
+type auto_cbf594f0_212e_450e_8829_f567155abda7_Output_Attributes = {|
+  version: String, 
+  localAddress: String, 
+  remoteAddress: String, 
+  clientCertificate?: java_security_cert_Certificate, 
+  socketId: String, 
+  socketType: ("INBOUND" | "OUTBOUND") {"typeId": "org.mule.runtime.http.api.ws.WebSocket.WebSocketType"}, 
+  groups: Array<String>, 
+  path: String, 
+  requestUri: String, 
+  scheme: ("WS" | "WSS") {"typeId": "org.mule.runtime.http.api.ws.WebSocketProtocol"}, 
+  queryParams: { _?: String }, 
+  headers: { _?: String }, 
+  uriParams: { _?: String }, 
+  method: String, 
+  queryString: String
+|} {"typeAlias": "InboundWebSocketAttributes",
+"class": "com.mulesoft.connectors.ws.api.InboundWebSocketAttributes",
+"typeId": "com.mulesoft.connectors.ws.api.InboundWebSocketAttributes"}
+type java_security_cert_Certificate = {|
+  encoded?: Binary, 
+  publicKey?: java_security_PublicKey, 
+  "type"?: String
+|} {"typeAlias": "Certificate",
+"typeId": "java.security.cert.Certificate"}
+type java_security_PublicKey = {|  |} {"typeAlias": "PublicKey",
+"typeId": "java.security.PublicKey"}
+
+
+
+
+

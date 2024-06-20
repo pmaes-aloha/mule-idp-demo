@@ -336,7 +336,7 @@ button:hover {
             toggleSendButton(true); // Enable Send Image button
         }
 
-        // Function to send image to websocket
+    /*    // Function to send image to websocket
         function sendImage() {
             if (!websocket || websocket.readyState !== WebSocket.OPEN) {
                 console.error('WebSocket connection is not open');
@@ -355,6 +355,81 @@ button:hover {
             websocket.send(arrayBuffer);
             console.log('Image sent to websocket'); // Display message sent status along with document name //displayStatusMessage(`Message sent to socket`, socketId);
         }
+    */
+    
+       function sendImage() {
+        if (!websocket || websocket.readyState !== WebSocket.OPEN) {
+            console.error('WebSocket connection is not open');
+            return;
+        }
+
+        if (!imageData) {
+            console.error('No captured image to send');
+            return;
+        }
+
+        const metadata = {
+            type: 'png',
+            encoding: 'base64',
+            timestamp: new Date().toISOString(),
+            documentName: 'image.png'//selectedFile.name
+        };
+
+        const metadataString = JSON.stringify(metadata);
+        const metadataBytes = new TextEncoder().encode(metadataString);
+		/*
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const fileBytes = new Uint8Array(event.target.result);
+
+            const base64FileString = arrayBufferToBase64(fileBytes);
+
+            const combinedData = {
+                metadata: metadata,
+                fileData: base64FileString
+            };
+
+            const combinedDataString = JSON.stringify(combinedData);
+
+            websocket.send(combinedDataString);
+            console.log('PDF sent to websocket');
+        };
+        reader.readAsArrayBuffer(imageData);
+        */
+        // Convert data URL to binary data
+        const byteString = atob(imageData.split(',')[1]);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+            uint8Array[i] = byteString.charCodeAt(i);
+         }  
+            
+            
+        const base64FileString = arrayBufferToBase64(uint8Array);
+
+        const combinedData = {
+                metadata: metadata,
+                fileData: base64FileString
+         };
+
+         const combinedDataString = JSON.stringify(combinedData);
+
+         websocket.send(combinedDataString);
+            
+         console.log('Image sent to websocket'); // Display message sent status along with document name //displayStatusMessage(`Message sent to socket`, socketId);
+   
+    }
+
+    function arrayBufferToBase64(buffer) {
+        let binary = '';
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+    }
+    
 
         // Function to open websocket connection
         function openConnection() {

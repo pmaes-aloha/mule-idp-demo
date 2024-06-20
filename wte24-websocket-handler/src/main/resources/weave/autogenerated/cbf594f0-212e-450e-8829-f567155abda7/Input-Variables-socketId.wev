@@ -1,0 +1,5 @@
+%dw 2.0
+
+type auto_cbf594f0_212e_450e_8829_f567155abda7_Input_Variables_socketId = {|  |} {"typeAlias": "Serializable",
+"typeId": "java.io.Serializable"}
+

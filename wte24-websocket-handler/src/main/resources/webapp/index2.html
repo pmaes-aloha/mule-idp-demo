@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MuleSoft Intelligent Document Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 100px;
+            margin-right: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-right: auto;
+        }
+
+        .button-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+        }
+
+        .left-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .right-container {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .message-container {
+            width: 100%;
+            max-width: 640px;
+            overflow-y: auto;
+            border: 2px solid #ccc;
+            padding: 10px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        .json {
+            color: green;
+        }
+
+        .status-message {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        #timestamp {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        #received-messages-container {
+            width: 100%;
+            max-width: 640px;
+            overflow-y: auto;
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        #received-messages-container .message {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        #received-messages-container .json {
+            color: green;
+        }
+
+        #socket-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            fill: grey;
+            width: 24px;
+            height: 24px;
+            z-index: 999;
+        }
+
+        .config-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .config-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        let listData = {};
+        let websocket;
+        let socketId;
+        let selectedFile;
+        let openButton;
+        let uploadButton;
+        let sendButton;
+        let closeButton;
+        let clearMsgButton;
+        let fileInput;
+        let messageContainer;
+        let receivedMessagesContainer;
+        let timestamp;
+        let socketIcon;
+
+        async function fetchListData() {
+            try {
+                const response = await fetch('../webclientconfig');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                listData = await response.json();
+                populateListA();
+                updateListB();
+            } catch (error) {
+                console.error('Error fetching list data:', error);
+            }
+        }
+
+		function populateListA()
+		{
+		    const action = document.getElementById('action');
+		    action.innerHTML = ''; // Clear any existing options
+		    for (const key in listData) {
+		        const option = document.createElement('option');
+		        option.value = key;
+		        option.text = `${listData[key].text} (${key})`; // Append key as suffix
+		        action.appendChild(option);
+		    }
+		}
+
+
+        function updateListB() {
+            const action = document.getElementById('action');
+            const selectedValue = action.options[action.selectedIndex].value;
+            const actionVersion = document.getElementById('actionVersion');
+            actionVersion.innerHTML = '';
+            const options = listData[selectedValue]?.versionIds || [];
+            for (const optionValue of options) {
+                const option = document.createElement('option');
+                option.value = optionValue;
+                option.text = optionValue;
+                actionVersion.appendChild(option);
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                selectedFile = file;
+                timestamp.textContent = `Selected file: ${file.name}`;
+                toggleSendButton(true);
+            } else {
+                alert('Please select a PDF document.');
+            }
+        }
+
+        function sendFile() {
+            if (!websocket || websocket.readyState !== WebSocket.OPEN) {
+                console.error('WebSocket connection is not open');
+                return;
+            }
+
+            if (!selectedFile) {
+                console.error('No file data to send');
+                return;
+            }
+
+            const action = document.getElementById('action');
+            const actionVersion = document.getElementById('actionVersion');
+            const selectedAction = action.options[action.selectedIndex]?.value || '';
+            const selectedActionVersion = actionVersion.options[actionVersion.selectedIndex]?.value || '';
+
+            const metadata = {
+                type: 'pdf',
+                encoding: 'base64',
+                timestamp: new Date().toISOString(),
+                documentName: selectedFile.name,
+                selectedAction: selectedAction,
+                selectedActionVersion: selectedActionVersion
+            };
+
+            const metadataString = JSON.stringify(metadata);
+            const metadataBytes = new TextEncoder().encode(metadataString);
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const fileBytes = new Uint8Array(event.target.result);
+
+                const base64FileString = arrayBufferToBase64(fileBytes);
+
+                const combinedData = {
+                    metadata: metadata,
+                    fileData: base64FileString
+                };
+
+                const combinedDataString = JSON.stringify(combinedData);
+
+                websocket.send(combinedDataString);
+                console.log('PDF sent to websocket');
+            };
+            reader.readAsArrayBuffer(selectedFile);
+        }
+
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            const len = bytes.byteLength;
+            for (let i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        function openConnection() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                console.warn('WebSocket connection is already open');
+                return;
+            }
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            const socketURL = wsProtocol + window.location.hostname + ':' + window.location.port + '/websocket/idp';
+            websocket = new WebSocket(socketURL);
+            socketId = Math.random().toString(36).substring(2, 8);
+            websocket.onopen = function() {
+                console.log('WebSocket connection opened');
+                toggleUploadButton(true);
+                if (selectedFile)
+                {
+                	toggleSendButton(true);
+                }
+                toggleCloseButton(true);
+                if (socketIcon) socketIcon.style.fill = 'green';
+            };
+            websocket.onmessage = function(event) {
+                const message = event.data;
+                console.log('Message received:', message);
+                displayMessage(message, socketId);
+            };
+            websocket.onclose = function() {
+                console.log('WebSocket connection closed');
+                toggleUploadButton(false);
+                toggleSendButton(false);
+                toggleCloseButton(false);
+                toggleClearMsgButton(false);
+                if (socketIcon) socketIcon.style.fill = 'grey';
+            };
+            websocket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+        }
+
+        function closeConnection() {
+            if (!websocket || websocket.readyState !== WebSocket.OPEN) {
+                console.warn('WebSocket connection is not open');
+                return;
+            }
+            websocket.close();
+            console.log('WebSocket connection closed');
+        }
+
+        function clearMessages() {
+            messageContainer.innerHTML = '';
+            receivedMessagesContainer.innerHTML = '';
+        }
+
+        function beautifyJSON(jsonString) {
+            try {
+                const jsonObject = JSON.parse(jsonString);
+                return JSON.stringify(jsonObject, null, 4);
+            } catch (e) {
+                console.error('Invalid JSON:', e);
+                return jsonString;
+            }
+        }
+
+        function displayMessage(message, socketId) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+
+            try {
+                const beautifiedMessage = beautifyJSON(message);
+                messageDiv.innerHTML = `<strong>Socket ID:</strong> ${socketId}<br><strong>Message:</strong><pre>${beautifiedMessage}</pre>`;
+                messageDiv.classList.add('json');
+            } catch (e) {
+                messageDiv.innerHTML = `<strong>Socket ID:</strong> ${socketId}<br><strong>Message:</strong> ${message}`;
+            }
+
+            receivedMessagesContainer.insertBefore(messageDiv, receivedMessagesContainer.firstChild);
+            toggleClearMsgButton(true);
+        }
+
+        function displayStatusMessage(statusMessage, socketId) {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'status-message';
+            statusDiv.innerHTML = `<strong>Socket ID:</strong> ${socketId}<br><strong>Status:</strong> ${statusMessage}`;
+            messageContainer.appendChild(statusDiv);
+            toggleClearMsgButton(true);
+        }
+
+        function toggleUploadButton(enable) {
+            uploadButton.disabled = !enable;
+        }
+
+        function toggleSendButton(enable) {
+            sendButton.disabled = !enable;
+        }
+
+        function toggleCloseButton(enable) {
+            closeButton.disabled = !enable;
+        }
+
+        function toggleClearMsgButton(enable) {
+            clearMsgButton.disabled = !enable;
+        }
+
+        window.onload = function() {
+            fetchListData();
+
+            openButton = document.getElementById('open-btn');
+            uploadButton = document.getElementById('upload-btn');
+            sendButton = document.getElementById('send-btn');
+            closeButton = document.getElementById('close-btn');
+            clearMsgButton = document.getElementById('clear-msg-btn');
+            fileInput = document.getElementById('file-input');
+            messageContainer = document.getElementById('messageContainer');
+            receivedMessagesContainer = document.getElementById('received-messages-container');
+            timestamp = document.getElementById('timestamp');
+            socketIcon = document.getElementById('socket-icon');
+
+            openButton.addEventListener('click', openConnection);
+            uploadButton.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileUpload);
+            sendButton.addEventListener('click', sendFile);
+            closeButton.addEventListener('click', closeConnection);
+            clearMsgButton.addEventListener('click', clearMessages);
+        };
+    </script>
+</head>
+<body>
+    <div class="logo-container">
+        <img class="logo" src="../image/mulesoft_logo_icon_170933.svg" alt="MuleSoft Logo">
+        <h1>Try MuleSoft Intelligent Document Processing</h1>
+    </div>
+    <div class="container">
+        <div class="left-container">
+            <div class="message-container" id="messageContainer"></div>
+            <div id="timestamp"></div>
+            <div class="config-container">
+        		<h2>Configuration Zone</h2>
+        		<label for="action">Select Action:</label>
+        		<select id="action" onchange="updateListB()">
+            	<!-- Options will be populated dynamically from the keys in listData -->
+        		</select>
+        			<label for="actionVersion">Select actionVersion:</label>
+        				<select id="actionVersion">
+            	<!-- Options will be populated based on the selection in action -->
+        		</select>
+    		</div>
+		    <div class="button-container">
+		        <div class="button-wrapper">
+		            <button id="open-btn">Open Connection</button>
+		            <button id="upload-btn" disabled>Upload PDF</button>
+		            <button id="send-btn" disabled>Send PDF</button>
+		            <button id="close-btn" disabled>Close Connection</button>
+		            <button id="clear-msg-btn" disabled>Clear Messages</button>
+		            <input type="file" id="file-input" accept="application/pdf" style="display: none;">
+		        </div>
+		    </div>
+        </div>
+        <div class="right-container">
+            <div id="received-messages-container"></div>
+        </div>
+    </div>
+
+    <svg id="socket-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5.41L17.59 4 7.59 14 9 15.41 19 5.41zM16.17 7.58L14.76 6.17l-1.42 1.42 1.41 1.41 1.42-1.43zM19.71 10.71l-1.41-1.42-1.42 1.42 1.41 1.41 1.42-1.41zM12 15a3.973 3.973 0 0 0-3.86 3H5v2h2v2H5v2h2v2h4c1.5 0 2.85-.85 3.54-2.18l1.17-2.36A3.957 3.957 0 0 0 12 15zm-2 4a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>
+</body>
+</html>

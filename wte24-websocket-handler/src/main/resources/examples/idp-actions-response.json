@@ -1,0 +1,1180 @@
+{
+    "actions": [
+        {
+            "id": "3b8dd2a9-4241-40e1-a13c-29fca1056fa5",
+            "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+            "name": "bm_custom_declaration_invoice_prep",
+            "description": "",
+            "type": "INVOICE",
+            "configuration": {
+                "content": {
+                    "output": {
+                        "fields": {
+                            "tax": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "total": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "emails": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "dueDate": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "parties": {
+                                "buyer": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerUrl": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerName": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerPhone": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerAddress": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "billTo": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "shipTo": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "vendor": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerUrl": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerName": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerPhone": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerAddress": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                }
+                            },
+                            "subtotal": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "amountDue": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "signatures": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "invoiceDate": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "paymentTerms": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "invoiceNumber": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "purchaseOrderNumber": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            }
+                        },
+                        "tables": {
+                            "table1": {
+                                "price": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "endDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "quantity": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "startDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "unitPrice": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "lineNumber": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "description": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "productCode": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "productType": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "expectedDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "unitOfMeasure": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "additionalCharges": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "purchaseOrderNumber": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                }
+                            }
+                        },
+                        "prompts": {
+                            "weight": {
+                                "hidden": false,
+                                "prompt": "What is the weight of the package?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "Salesorder": {
+                                "hidden": false,
+                                "prompt": "What is the sales order of the invoice?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            }
+                        }
+                    }
+                },
+                "version": "1.0.0"
+            },
+            "createdBy": "28fbf9fb-b8c1-4c9b-84f9-475cb86c6622",
+            "createdAt": "2024-05-29T15:18:09.710756Z",
+            "updatedAt": "2024-06-14T10:17:12.567622Z",
+            "registration": {
+                "status": "REGISTERED",
+                "message": ""
+            }
+        },
+        {
+            "id": "ee7b0e2a-9d24-4d10-841f-7578606a67e9",
+            "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+            "name": "my_demo_action",
+            "description": "",
+            "type": "GENERIC",
+            "configuration": {
+                "content": {
+                    "output": {
+                        "prompts": {}
+                    }
+                },
+                "version": "1.0.0"
+            },
+            "createdBy": "5b897e0c-a137-439f-a771-b35a59249772",
+            "createdAt": "2024-06-12T11:03:19.126878Z",
+            "updatedAt": "2024-06-12T11:03:19.126878Z",
+            "registration": {
+                "status": "REGISTERED",
+                "message": ""
+            }
+        },
+        {
+            "id": "9287b2b3-5462-4c85-84e0-315d05b5ea8c",
+            "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+            "name": "invoice_demo_bm",
+            "description": "",
+            "type": "INVOICE",
+            "configuration": {
+                "content": {
+                    "output": {
+                        "fields": {
+                            "tax": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "total": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "emails": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "dueDate": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "parties": {
+                                "buyer": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerUrl": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerName": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerPhone": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerAddress": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "billTo": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "shipTo": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "vendor": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerUrl": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerName": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerPhone": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerAddress": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                }
+                            },
+                            "subtotal": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "amountDue": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "signatures": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "invoiceDate": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "paymentTerms": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "invoiceNumber": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "purchaseOrderNumber": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            }
+                        },
+                        "tables": {
+                            "table1": {
+                                "price": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "endDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "quantity": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "startDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "unitPrice": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "lineNumber": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "description": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "productCode": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "productType": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "expectedDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "unitOfMeasure": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "additionalCharges": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "purchaseOrderNumber": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                }
+                            }
+                        },
+                        "prompts": {}
+                    }
+                },
+                "version": "1.0.0"
+            },
+            "createdBy": "28fbf9fb-b8c1-4c9b-84f9-475cb86c6622",
+            "createdAt": "2024-06-11T11:42:33.320979Z",
+            "updatedAt": "2024-06-11T11:42:33.320979Z",
+            "registration": {
+                "status": "REGISTERED",
+                "message": ""
+            }
+        },
+        {
+            "id": "aa95b3d4-408e-4121-9be7-1b6416902f01",
+            "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+            "name": "bla",
+            "description": "",
+            "type": "INVOICE",
+            "configuration": {
+                "content": {
+                    "output": {
+                        "fields": {
+                            "tax": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "total": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "emails": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "dueDate": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "parties": {
+                                "buyer": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerUrl": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerName": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerPhone": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerAddress": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "billTo": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "shipTo": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                },
+                                "vendor": {
+                                    "city": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "name": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "state": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "street": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "address": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "country": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "zipCode": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerUrl": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerName": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerPhone": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "addressBlock": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    },
+                                    "headerAddress": {
+                                        "hidden": false,
+                                        "required": false,
+                                        "confidenceThreshold": 80
+                                    }
+                                }
+                            },
+                            "subtotal": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "amountDue": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "signatures": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "invoiceDate": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "paymentTerms": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "invoiceNumber": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "purchaseOrderNumber": {
+                                "hidden": false,
+                                "required": false,
+                                "confidenceThreshold": 80
+                            }
+                        },
+                        "tables": {
+                            "table1": {
+                                "price": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "endDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "quantity": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "startDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "unitPrice": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "lineNumber": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "description": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "productCode": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "productType": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "expectedDate": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "unitOfMeasure": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "additionalCharges": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                },
+                                "purchaseOrderNumber": {
+                                    "hidden": false,
+                                    "required": false,
+                                    "confidenceThreshold": 80
+                                }
+                            }
+                        },
+                        "prompts": {}
+                    }
+                },
+                "version": "1.0.0"
+            },
+            "createdBy": "28fbf9fb-b8c1-4c9b-84f9-475cb86c6622",
+            "createdAt": "2024-06-11T10:01:27.244851Z",
+            "updatedAt": "2024-06-11T10:01:27.244851Z",
+            "registration": {
+                "status": "REGISTERED",
+                "message": ""
+            }
+        },
+        {
+            "id": "6a61d91e-5aab-4bbb-89c9-e3f37b9e0fe2",
+            "organizationId": "1ac9a609-b63f-4a10-99c3-e81c5722dd95",
+            "name": "bm_custom_declaration_packlist_prep",
+            "description": "",
+            "type": "GENERIC",
+            "configuration": {
+                "content": {
+                    "output": {
+                        "prompts": {
+                            "boxes": {
+                                "hidden": false,
+                                "prompt": "How many boxes are in this packlist?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "pieces": {
+                                "hidden": false,
+                                "prompt": "How many pieces are in this packlist?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "weight": {
+                                "hidden": false,
+                                "prompt": "What is the total weight?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "article": {
+                                "hidden": false,
+                                "prompt": "What are all the article numbers? An article number is a combination of uppercase characters, starts with \"V9\" for a total length of 17 characters and contains an \"-\".  ",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "picking": {
+                                "hidden": false,
+                                "prompt": "What is the picking number?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            },
+                            "box_number": {
+                                "hidden": false,
+                                "prompt": "What are all the box numbers?",
+                                "source": "document",
+                                "required": false,
+                                "confidenceThreshold": 80
+                            }
+                        }
+                    }
+                },
+                "version": "1.0.0"
+            },
+            "createdBy": "28fbf9fb-b8c1-4c9b-84f9-475cb86c6622",
+            "createdAt": "2024-06-03T11:16:42.593919Z",
+            "updatedAt": "2024-06-03T11:42:47.383421Z",
+            "registration": {
+                "status": "REGISTERED",
+                "message": ""
+            }
+        }
+    ]
+}

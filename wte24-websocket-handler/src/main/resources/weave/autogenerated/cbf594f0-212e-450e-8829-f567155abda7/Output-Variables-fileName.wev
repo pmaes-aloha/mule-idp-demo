@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_cbf594f0_212e_450e_8829_f567155abda7_Output_Variables_fileName = Any
+

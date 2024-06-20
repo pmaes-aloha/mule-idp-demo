@@ -3,12 +3,16 @@ idp:
   accessTokenUrl: "https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token"
   clientId: "2de049425523482ca2ef37c04fe2717d"
   clientSecret: "91b197ACc8844C30bC5F2B856A7FbFCb"
-  actionId: "691a5f45-60dd-4937-a016-0cf9454d17b0"
-  actionVersion: "1.2.0"
+  actionId: "3b8dd2a9-4241-40e1-a13c-29fca1056fa5"
+  actionVersion: "1.0.0"
 
 mulesoft:
   orgId: "1ac9a609-b63f-4a10-99c3-e81c5722dd95"
   pollingFrequency: "30"
+  username: "pmaes-anypoint"
+  password: "QFiLaZsH542z"
+  host: "anypoint.mulesoft.com"
+  protocol: "HTTPS"
   
 http:
   port: "8081"
