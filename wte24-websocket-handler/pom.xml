@@ -131,7 +131,7 @@
 		<repository>
 			<id>AP-repository</id>
 			<name>Customer Exchange</name>
-			<url>https://pmaes-anypoint:QFiLaZsH542z@maven.anypoint.mulesoft.com/api/v3/organizations/1ac9a609-b63f-4a10-99c3-e81c5722dd95/maven</url>
+			<url>https:/maven.anypoint.mulesoft.com/api/v3/organizations/1ac9a609-b63f-4a10-99c3-e81c5722dd95/maven</url>
 			<layout>default</layout>
 		</repository>
 	</distributionManagement>
