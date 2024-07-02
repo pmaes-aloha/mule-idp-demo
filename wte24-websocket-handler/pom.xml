@@ -2,19 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompany</groupId>
-	<artifactId>wte24-websocket-handler</artifactId>
-	<version>1.0.0</version>
+	<groupId>1ac9a609-b63f-4a10-99c3-e81c5722dd95</groupId>
+	<artifactId>mule-idp-demo</artifactId>
+	<version>1.1.9</version>
 	<packaging>mule-application</packaging>
 
-	<name>wte24-websocket-handler</name>
+	<name>mule-idp-demo</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<app.runtime>4.5.3</app.runtime>
-		<mule.maven.plugin.version>4.0.0</mule.maven.plugin.version>
+		<mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>
+		<mulesoft.orgId>${orgId}</mulesoft.orgId>
+		<corprep.un>${un}</corprep.un>
+		<corprep.pwd>${pwd}</corprep.pwd>
 	</properties>
 
 	<build>
@@ -31,6 +34,35 @@
 				<extensions>true</extensions>
 				<configuration>
 					<classifier>---- select project type ----</classifier>
+					<cloudhub2Deployment>
+						<businessGroupId>1ac9a609-b63f-4a10-99c3-e81c5722dd95</businessGroupId>
+						<uri>https://anypoint.mulesoft.com</uri>
+						<provider>MC</provider>
+						<environment>Sandbox</environment>
+						<target>Cloudhub-EU-Central-1</target>
+						<muleVersion>4.6.4</muleVersion>
+						<releaseChannel>LTS</releaseChannel>
+						<username>pmaes-anypoint</username>
+						<password>QFiLaZsH542z</password>
+						<applicationName>mule-idp-demo</applicationName>
+						<replicas>0</replicas>
+						<vCores>0.1</vCores>
+						<integrations>
+							<services>
+								<objectStoreV2>
+									<enabled>true</enabled>
+								</objectStoreV2>
+							</services>
+						</integrations>
+						<deploymentSettings>
+							<http>
+								<inbound>
+									<lastMileSecurity>true</lastMileSecurity>
+								</inbound>
+							</http>
+							<generateDefaultPublicUrl>true</generateDefaultPublicUrl>
+						</deploymentSettings>
+					</cloudhub2Deployment>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -95,5 +127,12 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
+	<distributionManagement>
+		<repository>
+			<id>AP-repository</id>
+			<name>Customer Exchange</name>
+			<url>https://pmaes-anypoint:QFiLaZsH542z@maven.anypoint.mulesoft.com/api/v3/organizations/1ac9a609-b63f-4a10-99c3-e81c5722dd95/maven</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 </project>
